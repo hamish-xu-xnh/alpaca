@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F83B8B77-905C-CAD8-917D-D2C40DDB671E}</ProjectGuid>
+    <ProjectGuid>{BF883F79-121F-0FEB-FB0F-9EB61495C3E0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -84,21 +84,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\AutoDecrease.cs" />
-    <Compile Include="Assets\BagManager.cs" />
+    <Compile Include="Assets\Scripts\AutoDecrease.cs" />
+    <Compile Include="Assets\Scripts\BagManager.cs" />
     <Compile Include="Assets\Scripts\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Interact.cs" />
     <Compile Include="Assets\Scripts\InteractableItem.cs" />
     <Compile Include="Assets\Scripts\JoyStick.cs" />
     <Compile Include="Assets\Scripts\MovingCamera.cs" />
-    <Compile Include="Assets\Scripts\Player2MoveControll.cs" />
-    <Compile Include="Assets\Scripts\PlayerMove.cs" />
-    <Compile Include="Assets\Scripts\PlayerMove2.cs" />
-    <Compile Include="Assets\Scripts\control.cs" />
+    <Compile Include="Assets\Scripts\PlayerMoveControll.cs" />
     <Compile Include="Assets\Scripts\move.cs" />
     <Compile Include="Assets\Scripts\pickup.cs" />
     <Compile Include="Assets\Scripts\respawn.cs" />
-    <Compile Include="Assets\Scripts\turn.cs" />
     <Compile Include="Assets\Scripts\use.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

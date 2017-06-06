@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Interact : MonoBehaviour
 {
-    SphereCollider m_Collider;
+    //SphereCollider m_Collider;
     private bool buttonHeld;
     private Transform target;
     private InteractableItem t_Item;
@@ -13,7 +13,7 @@ public class Interact : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        m_Collider = GetComponent<SphereCollider>();
+        //m_Collider = GetComponent<SphereCollider>();
         buttonHeld = false;
     }
 
