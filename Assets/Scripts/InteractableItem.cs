@@ -10,11 +10,6 @@ public class InteractableItem : MonoBehaviour {
     public GameObject obj;
     private bool objectSpawned;
 
-    void spawn(){
-        Vector3 objectpos = new Vector3(this.transform.position.x + 2,this.transform.position.y,this.transform.position.z );
-        Instantiate(obj,objectpos,Quaternion.identity);
-        objectSpawned = true;
-    }
 
 	// Use this for initialization
 	void Start () {
@@ -62,5 +57,11 @@ public class InteractableItem : MonoBehaviour {
         if (!objectSpawned) {
         spawn();
         }
+    }
+
+    void spawn()
+    {
+        gameObject.transform.Find("Item").gameObject.SetActive(true);
+        objectSpawned = true;
     }
 }

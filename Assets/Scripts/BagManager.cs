@@ -7,7 +7,7 @@ public class BagManager : MonoBehaviour {
     private bool bagOpened;
 	// Use this for initialization
 	void Start () {
-        bagOpened = false;
+        //bagOpened = false;
 	}
 	
 	// Update is called once per frame

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMoveControll : MonoBehaviour {
 
@@ -20,19 +21,24 @@ public class PlayerMoveControll : MonoBehaviour {
 
     private Vector3 movement;
 
+    public Text NPCText;
+
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
         m_MoveVertical = "Vertical";
         m_MoveHorizontal = "Horizontal";
         m_TurnAxisName = "Horizontal";
         m_Rigidbody = GetComponent<Rigidbody>();
-        movement = new Vector3(0f,0f,0f);
+        movement = new Vector3(0f, 0f, 0f);
 
+        NPCText.text = "";
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         m_MoveHorizontalValue = Input.GetAxis(m_MoveHorizontal);
         m_MoveVerticalValue = Input.GetAxis(m_MoveVertical);
@@ -48,17 +54,28 @@ public class PlayerMoveControll : MonoBehaviour {
         movement = new Vector3(m_MoveHorizontalValue, 0.0f, m_MoveVerticalValue);
 
     }
-    void FixedUpdate() {
-        //Vector3 movement = new Vector3(m_MoveHorizontalValue, 0.0f, m_MoveVerticalValue);
-        //transform.Translate(movement * m_speed * Time.deltaTime, Space.World);
-        //Quaternion newRota = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(preMovement, Vector3.up), Time.deltaTime * 10);
-        //m_Rigidbody.MoveRotation(newRota);
-
-        
+    void FixedUpdate()
+    {
         if (movement != Vector3.zero)
         {
             transform.Translate(movement * m_speed * Time.deltaTime, Space.World);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), Time.deltaTime * 10);
+        }
+    }
+
+    //trigger NPC
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("NPC"))
+        {
+            NPCText.text = "Hello! Give me your fire.";
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("NPC"))
+        {
+            NPCText.text = "";
         }
     }
 }

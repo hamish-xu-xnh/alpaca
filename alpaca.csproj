@@ -91,10 +91,8 @@
     <Compile Include="Assets\Scripts\InteractableItem.cs" />
     <Compile Include="Assets\Scripts\JoyStick.cs" />
     <Compile Include="Assets\Scripts\MovingCamera.cs" />
+    <Compile Include="Assets\Scripts\NPC.cs" />
     <Compile Include="Assets\Scripts\PlayerMoveControll.cs" />
-    <Compile Include="Assets\Scripts\move.cs" />
-    <Compile Include="Assets\Scripts\pickup.cs" />
-    <Compile Include="Assets\Scripts\respawn.cs" />
     <Compile Include="Assets\Scripts\use.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

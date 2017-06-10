@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
+    public GameObject win;
+    public GameObject inventoryPanel;
     private bool buttonHeld;
     private Transform target;
     private InteractableItem t_Item;
@@ -33,9 +35,9 @@ public class Interact : MonoBehaviour
         buttonHeld = true;
     }
 
+
     private void OnTriggerStay(Collider other)
     {
-
 
         //if (Input.GetKey("u"))
         if (buttonHeld)
@@ -49,6 +51,26 @@ public class Interact : MonoBehaviour
                     //other.gameObject.transform.Find("Canvas").gameObject.SetActive(true);
                     //other.gameObject.transform.Find("BeforeInteracted").gameObject.SetActive(false);
                     //other.gameObject.transform.Find("AfterInteracted").gameObject.SetActive(true);
+                }
+            }
+            if (other.gameObject.CompareTag("Item"))
+            {
+                other.gameObject.SetActive(false);
+                foreach (Transform child in inventoryPanel.transform)
+                {
+                    //if item alread in inventory
+                    if (child.gameObject.tag == other.gameObject.tag)
+                    {
+                        string c = child.Find("Text").GetComponent<Text>().text;
+                        int tcount = System.Int32.Parse(c) + 1;
+                        child.Find("Text").GetComponent<Text>().text = "" + tcount;
+
+                        if (tcount >= 2)
+                        {
+                            win.SetActive(true);
+                        }
+                        return;
+                    }
                 }
             }
         }
