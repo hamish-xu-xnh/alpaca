@@ -5,15 +5,6 @@ using UnityEngine.UI;
 
 public class BagManager : MonoBehaviour {
     private bool bagOpened;
-	// Use this for initialization
-	void Start () {
-        //bagOpened = false;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void changeState()
     {

@@ -9,6 +9,7 @@ public class InteractableItem : MonoBehaviour {
     private float HitPoint;
     public GameObject obj;
     private bool objectSpawned;
+    public Image SandValue;
 
 
 	// Use this for initialization
@@ -26,7 +27,18 @@ public class InteractableItem : MonoBehaviour {
     {
         if (gameObject.transform.Find("Canvas").gameObject.activeSelf)
         {
-            TakeDamage(1f);
+            if (SandValue.fillAmount >= 0.67f)
+            {
+                TakeDamage(1f);
+            }
+            else if (SandValue.fillAmount <= 0.67f && SandValue.fillAmount >= 0.33f)
+            {
+                TakeDamage(2f);
+            }
+            else
+            {
+                TakeDamage(3f);
+            }
         }
         if (HitPoint <= 0)
         {

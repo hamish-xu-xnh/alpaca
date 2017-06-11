@@ -9,30 +9,37 @@ public class Interact : MonoBehaviour
     public GameObject win;
     public GameObject inventoryPanel;
     private bool buttonHeld;
+    private bool PI;
     private Transform target;
     private InteractableItem t_Item;
+    public Image SandValue;
 
     // Use this for initialization
     void Start()
     {
-        //m_Collider = GetComponent<SphereCollider>();
+        // initialize the button
         buttonHeld = false;
+        PI = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    
-    }
-
-    public void pickingUp(string str)
+    public void disable_RESHAPE_function()
     {
         buttonHeld = false;
     }
 
-    public void puttingDown(string str)
+    public void disable_PICK_function()
+    {
+        PI = false;
+    }
+
+    public void enable_RESHAPE_function()
     {
         buttonHeld = true;
+    }
+
+    public void enable_PICK_funtion()
+    {
+        PI = true;
     }
 
 
@@ -53,7 +60,7 @@ public class Interact : MonoBehaviour
                     //other.gameObject.transform.Find("AfterInteracted").gameObject.SetActive(true);
                 }
             }
-            if (other.gameObject.CompareTag("Item"))
+ /*           if (other.gameObject.CompareTag("Item"))
             {
                 other.gameObject.SetActive(false);
                 foreach (Transform child in inventoryPanel.transform)
@@ -72,7 +79,7 @@ public class Interact : MonoBehaviour
                         return;
                     }
                 }
-            }
+            }*/
         }
         else
         {
@@ -82,6 +89,51 @@ public class Interact : MonoBehaviour
                 //gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
             }
         }
+
+        if (PI)
+        {
+            if (other.gameObject.CompareTag("Item"))
+            {
+                //other.gameObject.transform.GetComponent<InteractableItem>().TakeDamage(50f);
+                other.gameObject.SetActive(false);
+                foreach (Transform child in inventoryPanel.transform)
+                {
+                    //if item alread in inventory
+                    if (child.gameObject.tag == other.gameObject.tag)
+                    {
+                        string c = child.Find("Text").GetComponent<Text>().text;
+                        int tcount = System.Int32.Parse(c) + 1;
+                        child.Find("Text").GetComponent<Text>().text = "" + tcount;
+
+                        if (tcount >= 2)
+                        {
+                            win.SetActive(true);
+                        }
+                        return;
+                    }
+                }
+            }
+            else if (other.gameObject.CompareTag("DAMAGE"))
+            {
+                other.gameObject.SetActive(false);
+                SandValue.fillAmount -= 0.3f;
+            }
+            else if (other.gameObject.CompareTag("RECOVERY"))
+            {
+                other.gameObject.SetActive(false);
+
+                if (SandValue.fillAmount >= 0.6f)
+                {
+                    SandValue.fillAmount = 1f;
+                }
+                else
+                {
+                    SandValue.fillAmount += 0.4f;
+                }
+
+            }
+        }
+
     }
 
     private void OnTriggerExit(Collider other)

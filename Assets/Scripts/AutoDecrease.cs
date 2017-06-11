@@ -21,6 +21,7 @@ public class AutoDecrease : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        HitPoint = HitPointBar.fillAmount * StartingHitPoint;
         TakeDamage(0.05f);
 
         if (HitPoint <= 0 && !win.activeSelf)
