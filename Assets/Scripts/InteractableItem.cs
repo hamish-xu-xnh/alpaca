@@ -7,7 +7,7 @@ public class InteractableItem : MonoBehaviour {
     public Image HitPointBar;
     public float StartingHitPoint=100;
     private float HitPoint;
-    public GameObject obj;
+    //public GameObject obj;
     private bool objectSpawned;
     public Image SandValue;
 

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
-    public GameObject win;
-    public GameObject inventoryPanel;
+    public GameObject itemPrefab;
+    public GameObject winScreen;
+    public GameObject bagPanel;
     private bool buttonHeld;
     private bool PI;
     private Transform target;
@@ -96,20 +97,41 @@ public class Interact : MonoBehaviour
             {
                 //other.gameObject.transform.GetComponent<InteractableItem>().TakeDamage(50f);
                 other.gameObject.SetActive(false);
-                foreach (Transform child in inventoryPanel.transform)
+                bool itemFound = false;
+                foreach (Transform slot in bagPanel.transform)
                 {
-                    //if item alread in inventory
-                    if (child.gameObject.tag == other.gameObject.tag)
+                    //if there is no item in this slot
+                    if(slot.transform.childCount == 0)
                     {
-                        string c = child.Find("Text").GetComponent<Text>().text;
+                        continue;
+                    }
+                    //if item alread in inventory
+                    if (slot.GetChild(0).gameObject.tag == other.gameObject.tag)
+                    {
+                        itemFound = true;
+                        string c = slot.GetChild(0).Find("itemText").GetComponent<Text>().text;
                         int tcount = System.Int32.Parse(c) + 1;
-                        child.Find("Text").GetComponent<Text>().text = "" + tcount;
+                        slot.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcount;
 
                         if (tcount >= 2)
                         {
-                            win.SetActive(true);
+                            winScreen.SetActive(true);
                         }
                         return;
+                    }
+                    
+                }
+                if (!itemFound)
+                {
+                    foreach(Transform slot in bagPanel.transform)
+                    {
+                        if (slot.transform.childCount == 0)
+                        {
+                            GameObject item = Instantiate(itemPrefab) as GameObject;
+                            item.transform.SetParent(slot);
+                            item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+                            return;
+                        }
                     }
                 }
             }

@@ -13,11 +13,11 @@ public class PlayerMoveControll : MonoBehaviour {
 
     private string m_MoveVertical;
     private string m_MoveHorizontal;
-    private string m_TurnAxisName;
-    private Rigidbody m_Rigidbody;
+    //private string m_TurnAxisName;
+    //private Rigidbody m_Rigidbody;
     private float m_MoveHorizontalValue;
     private float m_MoveVerticalValue;
-    private float m_TurnValue;
+    //private float m_TurnValue;
 
     private Vector3 movement;
 
@@ -29,8 +29,8 @@ public class PlayerMoveControll : MonoBehaviour {
 
         m_MoveVertical = "Vertical";
         m_MoveHorizontal = "Horizontal";
-        m_TurnAxisName = "Horizontal";
-        m_Rigidbody = GetComponent<Rigidbody>();
+        //m_TurnAxisName = "Horizontal";
+        //m_Rigidbody = GetComponent<Rigidbody>();
         movement = new Vector3(0f, 0f, 0f);
 
         NPCText.text = "";
@@ -42,13 +42,13 @@ public class PlayerMoveControll : MonoBehaviour {
 
         m_MoveHorizontalValue = Input.GetAxis(m_MoveHorizontal);
         m_MoveVerticalValue = Input.GetAxis(m_MoveVertical);
-        m_TurnValue = Input.GetAxis(m_MoveHorizontal);
+        //m_TurnValue = Input.GetAxis(m_MoveHorizontal);
 
         if (moveJoystick.InputDirection != Vector3.zero)
         {
             m_MoveHorizontalValue = moveJoystick.InputDirection.x;
             m_MoveVerticalValue = moveJoystick.InputDirection.z;
-            m_TurnValue = moveJoystick.InputDirection.x;
+            //m_TurnValue = moveJoystick.InputDirection.x;
         }
 
         movement = new Vector3(m_MoveHorizontalValue, 0.0f, m_MoveVerticalValue);
