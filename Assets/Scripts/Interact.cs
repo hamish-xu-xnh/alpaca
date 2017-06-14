@@ -113,7 +113,7 @@ public class Interact : MonoBehaviour
                         int tcount = System.Int32.Parse(c) + 1;
                         slot.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcount;
 
-                        if (tcount >= 2)
+                        if (tcount >= 3)
                         {
                             winScreen.SetActive(true);
                         }
@@ -127,7 +127,7 @@ public class Interact : MonoBehaviour
                     {
                         if (slot.transform.childCount == 0)
                         {
-                            GameObject item = Instantiate(itemPrefab) as GameObject;
+                            GameObject item = Instantiate(other.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
                             item.transform.SetParent(slot);
                             item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
                             item.name = other.name;

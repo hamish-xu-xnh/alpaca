@@ -35,4 +35,16 @@ public class AutoDecrease : MonoBehaviour {
         HitPoint -= amount;
         HitPointBar.fillAmount = HitPoint / StartingHitPoint;
     }
+
+    public void Heal(float amount)
+    {
+        if (HitPointBar.fillAmount >= 1- amount)
+        {
+            HitPointBar.fillAmount = 1f;
+        }
+        else
+        {
+            HitPointBar.fillAmount += amount;
+        }
+    }
 }
