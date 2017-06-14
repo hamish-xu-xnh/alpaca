@@ -106,7 +106,7 @@ public class Interact : MonoBehaviour
                         continue;
                     }
                     //if item alread in inventory
-                    if (slot.GetChild(0).gameObject.tag == other.gameObject.tag)
+                    if (slot.GetChild(0).gameObject.name == other.gameObject.name)
                     {
                         itemFound = true;
                         string c = slot.GetChild(0).Find("itemText").GetComponent<Text>().text;
@@ -130,6 +130,7 @@ public class Interact : MonoBehaviour
                             GameObject item = Instantiate(itemPrefab) as GameObject;
                             item.transform.SetParent(slot);
                             item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+                            item.name = other.name;
                             return;
                         }
                     }
