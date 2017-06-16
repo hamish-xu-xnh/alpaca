@@ -77,8 +77,11 @@ public class use : MonoBehaviour {
         
         Vector3 objectpos = PlayerMoveControll.Player.transform.GetChild(0).transform.position;
 
-        Instantiate(obj, objectpos, Quaternion.identity).SetActive(true);
+        GameObject item = Instantiate(obj, objectpos, Quaternion.identity) as GameObject;
+        item.SetActive(true);
+        item.name = this.name;
+
         SelectMe();
-            Destroy(this.gameObject);
+        Destroy(this.gameObject);
     }
 }

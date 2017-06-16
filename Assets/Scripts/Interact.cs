@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
-    public GameObject itemPrefab;
     public GameObject winScreen;
     public GameObject bagPanel;
     private bool buttonHeld;
