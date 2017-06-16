@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerMoveControll : MonoBehaviour {
 
-
+    public static GameObject Player;
     public float m_speed = 12f;
     public float m_turnSpeed = 180f;
 
@@ -26,7 +26,7 @@ public class PlayerMoveControll : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        Player = this.gameObject;
         m_MoveVertical = "Vertical";
         m_MoveHorizontal = "Horizontal";
         //m_TurnAxisName = "Horizontal";
