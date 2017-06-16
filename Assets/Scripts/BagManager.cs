@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class BagManager : MonoBehaviour {
     public static GameObject bagPanel;
     private bool bagOpened;
-    public Transform selectedItem, selectedSlot;
-    public GameObject slotPrefab, itemPrefab;
+    public GameObject slotPrefab;
     public Vector2 inventorySize = new Vector2 (4, 2);
     public float slotSize;
     public Vector2 windowSize;

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC : MonoBehaviour {
+public class npcExchange : MonoBehaviour {
     public GameObject Item_UI_prefab;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -13,5 +13,4 @@ public class NPC : MonoBehaviour {
 	void Update () {
 		
 	}
-
 }

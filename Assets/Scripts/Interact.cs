@@ -7,12 +7,16 @@ public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
     public GameObject winScreen;
+    public Image SandValue;
     public GameObject bagPanel;
+    public Text NPCText;
     private bool buttonHeld;
     private bool PI;
     private Transform target;
     private InteractableItem t_Item;
-    public Image SandValue;
+    
+    private bool exChange;
+    private bool npcInteractable;
 
     // Use this for initialization
     void Start()
@@ -20,6 +24,8 @@ public class Interact : MonoBehaviour
         // initialize the button
         buttonHeld = false;
         PI = false;
+        exChange = false;
+        npcInteractable = false;
     }
 
     public void disable_RESHAPE_function()
@@ -42,10 +48,84 @@ public class Interact : MonoBehaviour
         PI = true;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Exchange"))
+        {
+            npcInteractable = true;
+        }
+    }
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.gameObject.CompareTag("Exchange"))
+        {
 
+            if (exChange)
+            {
+                //Search through the bag for the target item;
+                foreach (Transform slot in bagPanel.transform)
+                {
+                    //if there is no item in this slot
+                    if (slot.transform.childCount == 0)
+                    {
+                        continue;
+                    }
+                    //if target item in inventory
+                    if (slot.GetChild(0).gameObject.name == "Item1")
+                    {
+                        string c = slot.GetChild(0).Find("itemText").GetComponent<Text>().text;
+                        int tcount = System.Int32.Parse(c) - 1;
+                        slot.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcount;
+                        NPCText.text = "Mission 1 completed";
+                        if (tcount <= 0)
+                        {
+                            Destroy(slot.GetChild(0).gameObject);
+                        }
+
+                        //add a new item to the bag;
+                        bool itemFound = false;
+                        foreach (Transform slotNew in bagPanel.transform)
+                        {
+                            //if there is no item in this slot
+                            if (slotNew.transform.childCount == 0)
+                            {
+                                continue;
+                            }
+                            //if item alread in inventory
+                            if (slotNew.GetChild(0).gameObject.name == "Item3")
+                            {
+                                itemFound = true;
+                                string cc = slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text;
+                                int tcountNew = System.Int32.Parse(cc) + 1;
+                                slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcountNew;
+                                exChange = false;
+                                return;
+                            }
+
+                        }
+                        if (!itemFound)
+                        {
+                            foreach (Transform slotNew in bagPanel.transform)
+                            {
+                                if (slotNew.transform.childCount == 0)
+                                {
+                                    GameObject item = Instantiate(other.transform.GetComponent<npcExchange>().Item_UI_prefab) as GameObject;
+                                    item.transform.SetParent(slotNew);
+                                    item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+                                    item.name = "Item3";
+                                    exChange = false;
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+        }
         //if (Input.GetKey("u"))
         if (buttonHeld)
         {
@@ -60,6 +140,7 @@ public class Interact : MonoBehaviour
                     //other.gameObject.transform.Find("AfterInteracted").gameObject.SetActive(true);
                 }
             }
+
  /*           if (other.gameObject.CompareTag("Item"))
             {
                 other.gameObject.SetActive(false);
@@ -135,12 +216,12 @@ public class Interact : MonoBehaviour
                     }
                 }
             }
-            else if (other.gameObject.CompareTag("DAMAGE"))
+            else if (other.gameObject.CompareTag("Damage"))
             {
                 other.gameObject.SetActive(false);
                 SandValue.fillAmount -= 0.3f;
             }
-            else if (other.gameObject.CompareTag("RECOVERY"))
+            else if (other.gameObject.CompareTag("Recovery"))
             {
                 other.gameObject.SetActive(false);
 
@@ -165,5 +246,20 @@ public class Interact : MonoBehaviour
             other.gameObject.transform.Find("Canvas").gameObject.SetActive(false);
             //gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
         }
+        if (other.gameObject.CompareTag("Exchange"))
+        {
+            NPCText.text = "";
+            npcInteractable = false;
+            exChange = false;
+        }
+    }
+
+    public void NPCExchange()
+    {
+        if (npcInteractable)
+        {
+            exChange = true;
+        }
+
     }
 }
