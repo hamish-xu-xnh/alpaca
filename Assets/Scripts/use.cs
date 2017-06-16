@@ -74,14 +74,18 @@ public class use : MonoBehaviour {
 
     public void Drop()
     {
-        
-        Vector3 objectpos = PlayerMoveControll.Player.transform.GetChild(0).transform.position;
-
-        GameObject item = Instantiate(obj, objectpos, Quaternion.identity) as GameObject;
-        item.SetActive(true);
-        item.name = this.name;
-
-        SelectMe();
-        Destroy(this.gameObject);
+        if (PlayerMoveControll.Player.transform.GetChild(0).transform.GetComponent<Interact>().index_drop)
+        {
+            Vector3 objectpos = PlayerMoveControll.Player.transform.GetChild(0).transform.position;
+            int num = System.Int32.Parse(Text.GetComponent<Text>().text);
+            for (int i = num; i > 0; i--)
+            {
+                GameObject item = Instantiate(obj, objectpos, Quaternion.identity) as GameObject;
+                item.SetActive(true);
+                item.name = this.name;
+            }
+            SelectMe();
+            Destroy(this.gameObject);
+        }
     }
 }

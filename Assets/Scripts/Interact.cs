@@ -14,7 +14,8 @@ public class Interact : MonoBehaviour
     private bool PI;
     private Transform target;
     private InteractableItem t_Item;
-    
+    public bool index_drop;
+
     private bool exChange;
     private bool npcInteractable;
 
@@ -26,6 +27,7 @@ public class Interact : MonoBehaviour
         PI = false;
         exChange = false;
         npcInteractable = false;
+        index_drop = true;
     }
 
     public void disable_RESHAPE_function()
@@ -50,6 +52,9 @@ public class Interact : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.name != "NPC"){
+            index_drop = false;
+        }
         if (other.gameObject.CompareTag("Exchange"))
         {
             npcInteractable = true;
@@ -241,6 +246,7 @@ public class Interact : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        index_drop = true;
         if (other.gameObject.CompareTag("Interactable"))
         {
             other.gameObject.transform.Find("Canvas").gameObject.SetActive(false);
