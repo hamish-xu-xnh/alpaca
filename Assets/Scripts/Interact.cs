@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
-    public GameObject winScreen;
     public Image SandValue;
     public Text NPCText;
     public bool craftEnabled;
@@ -16,8 +15,8 @@ public class Interact : MonoBehaviour
     private InteractableItem t_Item;
     public bool index_drop;
 
+    private bool exchangeEnabled;
     private bool exchanged;
-    private bool npcInteractable;
 
     // Use this for initialization
     void Start()
@@ -25,8 +24,9 @@ public class Interact : MonoBehaviour
         // initialize the button
         buttonHeld = false;
         PI = false;
+
+        exchangeEnabled = false;
         exchanged = false;
-        npcInteractable = false;
         index_drop = true;
     }
 
@@ -60,7 +60,7 @@ public class Interact : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Exchange"))
         {
-            npcInteractable = true;
+            exchangeEnabled = true;
         }
         if (other.gameObject.CompareTag("Craft"))
         {
@@ -84,45 +84,25 @@ public class Interact : MonoBehaviour
                 }
                 else
                 {
-                    string c = item.transform.Find("itemText").GetComponent<Text>().text;
-                    int tcount = System.Int32.Parse(c) - 1;
-                    item.transform.Find("itemText").GetComponent<Text>().text = "" + tcount;
+                    BagManager.bagPanel.GetComponent<BagManager>().reduceItem(item);
                     NPCText.text = "Mission 1 completed";
-                    if (tcount <= 0)
-                    {
-                        Destroy(item.transform.gameObject);
-                    }
 
                     //add a new item to the bag;
                     item = BagManager.bagPanel.GetComponent<BagManager>().findItem("Item3");
                     if (item == null)
                     {
-                        foreach (Transform slotNew in BagManager.bagPanel.transform)
-                        {
-                            if (slotNew.transform.childCount == 0)
-                            {
-                                GameObject itemIcon = Instantiate(other.transform.GetComponent<npcExchange>().Item_UI_prefab) as GameObject;
-                                itemIcon.transform.SetParent(slotNew);
-                                itemIcon.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-                                itemIcon.name = "Item3";
-                                exchanged = false;
-                                return;
-                            }
-                        }
+                        BagManager.bagPanel.GetComponent<BagManager>().addItem(other.gameObject);
                     }
                     else
                     {
-                        string cc = item.transform.Find("itemText").GetComponent<Text>().text;
-                        int tcountNew = System.Int32.Parse(cc) + 1;
-                        item.transform.Find("itemText").GetComponent<Text>().text = "" + tcountNew;
-                        exchanged = false;
-                        return;
+                        BagManager.bagPanel.GetComponent<BagManager>().increaseItem(item);
                     }
+                    exchanged = false;
                 }
 
             }
         }
-        //if (Input.GetKey("u"))
+        //if holding RS button
         if (buttonHeld)
         {
             if (other.gameObject.CompareTag("Interactable"))
@@ -137,8 +117,7 @@ public class Interact : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Interactable"))
             {
-                other.gameObject.transform.Find("Canvas").gameObject.SetActive(false);
-                //gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
+                other.gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
             }
         }
 
@@ -146,33 +125,15 @@ public class Interact : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Item"))
             {
-                //other.gameObject.transform.GetComponent<InteractableItem>().TakeDamage(50f);
                 other.gameObject.SetActive(false);
                 GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem(other.gameObject.name);
                 if (item == null)
                 {
-                    foreach (Transform slot in BagManager.bagPanel.transform)
-                    {
-                        if (slot.transform.childCount == 0)
-                        {
-                            GameObject itemIcon = Instantiate(other.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
-                            itemIcon.transform.SetParent(slot);
-                            itemIcon.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-                            itemIcon.name = other.name;
-                            return;
-                        }
-                    }
+                    BagManager.bagPanel.GetComponent<BagManager>().addItem(other.gameObject);
                 }
                 else
                 {
-                    string c = item.transform.Find("itemText").GetComponent<Text>().text;
-                    int tcount = System.Int32.Parse(c) + 1;
-                    item.transform.Find("itemText").GetComponent<Text>().text = "" + tcount;
-
-                    if (tcount >= 3)
-                    {
-                        winScreen.SetActive(true);
-                    }
+                    BagManager.bagPanel.GetComponent<BagManager>().increaseItem(item);
                     return;
                 }
 
@@ -205,13 +166,11 @@ public class Interact : MonoBehaviour
         index_drop = true;
         if (other.gameObject.CompareTag("Interactable"))
         {
-            other.gameObject.transform.Find("Canvas").gameObject.SetActive(false);
-            //gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
+            other.gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
         }
         if (other.gameObject.CompareTag("Exchange"))
         {
-            NPCText.text = "";
-            npcInteractable = false;
+            exchangeEnabled = false;
             exchanged = false;
         }
         if (other.gameObject.CompareTag("Craft"))
@@ -223,7 +182,7 @@ public class Interact : MonoBehaviour
 
     public void NPCExchange()
     {
-        if (npcInteractable)
+        if (exchangeEnabled)
         {
             exchanged = true;
         }

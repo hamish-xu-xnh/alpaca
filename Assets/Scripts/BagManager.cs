@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class BagManager : MonoBehaviour {
     public static GameObject bagPanel;
+    public GameObject winScreen;
     public bool craftMode;
     public GameObject slotPrefab;
     public Vector2 inventorySize = new Vector2 (4, 2);
     public float slotSize;
     public Vector2 windowSize;
     public Button bagButton;
-    private bool bagOpened;
 
     public void Awake()
     {
@@ -49,10 +49,12 @@ public class BagManager : MonoBehaviour {
     public void openBag()
     {
         this.gameObject.SetActive(true);
+        bagButton.transform.GetChild(0).GetComponent<Text>().text = "Close";
     }
     public void closeBag()
     {
         this.gameObject.SetActive(false);
+        bagButton.transform.GetChild(0).GetComponent<Text>().text = "Bag";
     }
     public void bagButtonClicked()
     {
@@ -120,5 +122,43 @@ public class BagManager : MonoBehaviour {
         }
         //if item not found
         return null;
+    }
+
+    public void addItem(GameObject worldItem)
+    {
+        foreach (Transform slot in BagManager.bagPanel.transform)
+        {
+            if (slot.transform.childCount == 0)
+            {
+                GameObject itemIcon = Instantiate(worldItem.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
+                itemIcon.transform.SetParent(slot);
+                itemIcon.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
+                itemIcon.name = itemIcon.GetComponent<ItemManager>().itemName;
+                return;
+            }
+        }
+    }
+
+    public void increaseItem(GameObject item)
+    {
+        string number = item.transform.Find("itemText").GetComponent<Text>().text;
+        int amount = System.Int32.Parse(number) + 1;
+        item.transform.Find("itemText").GetComponent<Text>().text = "" + amount;
+
+        if (amount >= 3)
+        {
+            winScreen.SetActive(true);
+        }
+    }
+
+    public void reduceItem(GameObject item)
+    {
+        string number = item.transform.Find("itemText").GetComponent<Text>().text;
+        int amount = System.Int32.Parse(number) - 1;
+        item.transform.Find("itemText").GetComponent<Text>().text = "" + amount;
+        if (amount <= 0)
+        {
+            Destroy(item.transform.gameObject);
+        }
     }
 }

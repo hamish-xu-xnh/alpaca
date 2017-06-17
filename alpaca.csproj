@@ -96,7 +96,6 @@
     <Compile Include="Assets\Scripts\MovingCamera.cs" />
     <Compile Include="Assets\Scripts\PlayerMoveControll.cs" />
     <Compile Include="Assets\Scripts\SlotManager.cs" />
-    <Compile Include="Assets\Scripts\npcExchange.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

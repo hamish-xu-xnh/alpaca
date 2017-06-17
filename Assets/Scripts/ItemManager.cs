@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour {
 
+    public string itemName;
     public GameObject Text;
     public GameObject icon_chosen;
     public GameObject obj;
