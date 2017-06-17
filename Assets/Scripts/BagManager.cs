@@ -45,24 +45,6 @@ public class BagManager : MonoBehaviour {
         
     }
 
-    public void beginCraft()
-    {
-        craftMode = true;
-        openBag();
-    }
-    public void stopCraft()
-    {
-        if(craftMode){
-            closeBag();
-            ClearSelection();
-        }
-        
-        craftMode = false;
-    }
-    public bool inCraftMode()
-    {
-        return craftMode;
-    }
 
     public void openBag()
     {
@@ -85,6 +67,27 @@ public class BagManager : MonoBehaviour {
         }
     }
 
+
+    public void beginCraft()
+    {
+        craftMode = true;
+        openBag();
+    }
+    public void stopCraft()
+    {
+        if(craftMode){
+            closeBag();
+            ClearSelection();
+        }
+        
+        craftMode = false;
+    }
+    public bool inCraftMode()
+    {
+        return craftMode;
+    }
+
+
     public void ClearSelection()
     {
         foreach (Transform slot in BagManager.bagPanel.transform)
@@ -98,5 +101,24 @@ public class BagManager : MonoBehaviour {
                 slot.GetChild(0).GetComponent<ItemManager>().Unselect();
             }
         }
+    }
+
+    public GameObject findItem(string name)
+    {
+        foreach (Transform slot in bagPanel.transform)
+        {
+            //if there is no item in this slot
+            if (slot.transform.childCount == 0)
+            {
+                continue;
+            }
+            //if item found
+            if (slot.GetChild(0).gameObject.name == name)
+            {
+                return slot.GetChild(0).gameObject;
+            }
+        }
+        //if item not found
+        return null;
     }
 }

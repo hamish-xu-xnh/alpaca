@@ -8,7 +8,6 @@ public class Interact : MonoBehaviour
     //SphereCollider m_Collider;
     public GameObject winScreen;
     public Image SandValue;
-    public GameObject bagPanel;
     public Text NPCText;
     public bool craftEnabled;
     private bool buttonHeld;
@@ -35,7 +34,7 @@ public class Interact : MonoBehaviour
     {
         buttonHeld = false;
         if (craftEnabled) {
-            bagPanel.GetComponent<BagManager>().beginCraft();
+            BagManager.bagPanel.GetComponent<BagManager>().beginCraft();
         }
     }
 
@@ -78,64 +77,47 @@ public class Interact : MonoBehaviour
             if (exchanged)
             {
                 //Search through the bag for the target item;
-                foreach (Transform slot in bagPanel.transform)
+                GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem("Item1");
+                if (item == null)
                 {
-                    //if there is no item in this slot
-                    if (slot.transform.childCount == 0)
+                    NPCText.text = "Item1 needed";
+                }
+                else
+                {
+                    string c = item.transform.Find("itemText").GetComponent<Text>().text;
+                    int tcount = System.Int32.Parse(c) - 1;
+                    item.transform.Find("itemText").GetComponent<Text>().text = "" + tcount;
+                    NPCText.text = "Mission 1 completed";
+                    if (tcount <= 0)
                     {
-                        continue;
+                        Destroy(item.transform.gameObject);
                     }
-                    //if target item in inventory
-                    if (slot.GetChild(0).gameObject.name == "Item1")
-                    {
-                        string c = slot.GetChild(0).Find("itemText").GetComponent<Text>().text;
-                        int tcount = System.Int32.Parse(c) - 1;
-                        slot.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcount;
-                        NPCText.text = "Mission 1 completed";
-                        if (tcount <= 0)
-                        {
-                            Destroy(slot.GetChild(0).gameObject);
-                        }
 
-                        //add a new item to the bag;
-                        bool itemFound = false;
-                        foreach (Transform slotNew in bagPanel.transform)
+                    //add a new item to the bag;
+                    item = BagManager.bagPanel.GetComponent<BagManager>().findItem("Item3");
+                    if (item == null)
+                    {
+                        foreach (Transform slotNew in BagManager.bagPanel.transform)
                         {
-                            //if there is no item in this slot
                             if (slotNew.transform.childCount == 0)
                             {
-                                continue;
-                            }
-                            //if item alread in inventory
-                            if (slotNew.GetChild(0).gameObject.name == "Item3")
-                            {
-                                itemFound = true;
-                                string cc = slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text;
-                                int tcountNew = System.Int32.Parse(cc) + 1;
-                                slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcountNew;
+                                GameObject itemIcon = Instantiate(other.transform.GetComponent<npcExchange>().Item_UI_prefab) as GameObject;
+                                itemIcon.transform.SetParent(slotNew);
+                                itemIcon.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+                                itemIcon.name = "Item3";
                                 exchanged = false;
                                 return;
                             }
-
                         }
-                        if (!itemFound)
-                        {
-                            foreach (Transform slotNew in bagPanel.transform)
-                            {
-                                if (slotNew.transform.childCount == 0)
-                                {
-                                    GameObject item = Instantiate(other.transform.GetComponent<npcExchange>().Item_UI_prefab) as GameObject;
-                                    item.transform.SetParent(slotNew);
-                                    item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-                                    item.name = "Item3";
-                                    exchanged = false;
-                                    return;
-                                }
-                            }
-                        }
-
                     }
-
+                    else
+                    {
+                        string cc = item.transform.Find("itemText").GetComponent<Text>().text;
+                        int tcountNew = System.Int32.Parse(cc) + 1;
+                        item.transform.Find("itemText").GetComponent<Text>().text = "" + tcountNew;
+                        exchanged = false;
+                        return;
+                    }
                 }
 
             }
@@ -147,34 +129,9 @@ public class Interact : MonoBehaviour
             {
                 if (other.gameObject.transform.Find("BeforeInteracted").gameObject.activeSelf)
                 {
-                    //other.gameObject.transform.GetComponent<InteractableItem>().TakeDamage(50f);
                     other.gameObject.transform.GetComponent<InteractableItem>().Interacting();
-                    //other.gameObject.transform.Find("Canvas").gameObject.SetActive(true);
-                    //other.gameObject.transform.Find("BeforeInteracted").gameObject.SetActive(false);
-                    //other.gameObject.transform.Find("AfterInteracted").gameObject.SetActive(true);
                 }
             }
-
- /*           if (other.gameObject.CompareTag("Item"))
-            {
-                other.gameObject.SetActive(false);
-                foreach (Transform child in inventoryPanel.transform)
-                {
-                    //if item alread in inventory
-                    if (child.gameObject.tag == other.gameObject.tag)
-                    {
-                        string c = child.Find("Text").GetComponent<Text>().text;
-                        int tcount = System.Int32.Parse(c) + 1;
-                        child.Find("Text").GetComponent<Text>().text = "" + tcount;
-
-                        if (tcount >= 2)
-                        {
-                            win.SetActive(true);
-                        }
-                        return;
-                    }
-                }
-            }*/
         }
         else
         {
@@ -191,44 +148,34 @@ public class Interact : MonoBehaviour
             {
                 //other.gameObject.transform.GetComponent<InteractableItem>().TakeDamage(50f);
                 other.gameObject.SetActive(false);
-                bool itemFound = false;
-                foreach (Transform slot in bagPanel.transform)
+                GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem(other.gameObject.name);
+                if (item == null)
                 {
-                    //if there is no item in this slot
-                    if(slot.transform.childCount == 0)
-                    {
-                        continue;
-                    }
-                    //if item alread in inventory
-                    if (slot.GetChild(0).gameObject.name == other.gameObject.name)
-                    {
-                        itemFound = true;
-                        string c = slot.GetChild(0).Find("itemText").GetComponent<Text>().text;
-                        int tcount = System.Int32.Parse(c) + 1;
-                        slot.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcount;
-
-                        if (tcount >= 3)
-                        {
-                            winScreen.SetActive(true);
-                        }
-                        return;
-                    }
-                    
-                }
-                if (!itemFound)
-                {
-                    foreach(Transform slot in bagPanel.transform)
+                    foreach (Transform slot in BagManager.bagPanel.transform)
                     {
                         if (slot.transform.childCount == 0)
                         {
-                            GameObject item = Instantiate(other.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
-                            item.transform.SetParent(slot);
-                            item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-                            item.name = other.name;
+                            GameObject itemIcon = Instantiate(other.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
+                            itemIcon.transform.SetParent(slot);
+                            itemIcon.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+                            itemIcon.name = other.name;
                             return;
                         }
                     }
                 }
+                else
+                {
+                    string c = item.transform.Find("itemText").GetComponent<Text>().text;
+                    int tcount = System.Int32.Parse(c) + 1;
+                    item.transform.Find("itemText").GetComponent<Text>().text = "" + tcount;
+
+                    if (tcount >= 3)
+                    {
+                        winScreen.SetActive(true);
+                    }
+                    return;
+                }
+
             }
             else if (other.gameObject.CompareTag("Damage"))
             {
@@ -270,7 +217,7 @@ public class Interact : MonoBehaviour
         if (other.gameObject.CompareTag("Craft"))
         {
             craftEnabled = false;
-            bagPanel.GetComponent<BagManager>().stopCraft();
+            BagManager.bagPanel.GetComponent<BagManager>().stopCraft();
         }
     }
 
