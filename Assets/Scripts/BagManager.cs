@@ -5,15 +5,19 @@ using UnityEngine.UI;
 
 public class BagManager : MonoBehaviour {
     public static GameObject bagPanel;
-    private bool bagOpened;
+    public bool craftMode;
     public GameObject slotPrefab;
     public Vector2 inventorySize = new Vector2 (4, 2);
     public float slotSize;
     public Vector2 windowSize;
+    public Button bagButton;
+    private bool bagOpened;
 
     public void Awake()
     {
         bagPanel = this.gameObject;
+        craftMode = false;
+
         //Create slots
         for (int x = 1; x <= inventorySize.x; x++)
         {
@@ -41,9 +45,58 @@ public class BagManager : MonoBehaviour {
         
     }
 
-    public void changeState()
+    public void beginCraft()
     {
-        bagOpened = !bagOpened;
-        this.gameObject.SetActive(bagOpened);
+        craftMode = true;
+        openBag();
+    }
+    public void stopCraft()
+    {
+        if(craftMode){
+            closeBag();
+            ClearSelection();
+        }
+        
+        craftMode = false;
+    }
+    public bool inCraftMode()
+    {
+        return craftMode;
+    }
+
+    public void openBag()
+    {
+        this.gameObject.SetActive(true);
+    }
+    public void closeBag()
+    {
+        this.gameObject.SetActive(false);
+    }
+    public void bagButtonClicked()
+    {
+        if (this.gameObject.activeSelf)
+        {
+            stopCraft();
+            closeBag();
+        }
+        else
+        {
+            openBag();
+        }
+    }
+
+    public void ClearSelection()
+    {
+        foreach (Transform slot in BagManager.bagPanel.transform)
+        {
+            if (slot.childCount == 0)
+            {
+                slot.GetComponent<SlotManager>().unselect();
+            }
+            else
+            {
+                slot.GetChild(0).GetComponent<ItemManager>().Unselect();
+            }
+        }
     }
 }

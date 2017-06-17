@@ -10,13 +10,14 @@ public class Interact : MonoBehaviour
     public Image SandValue;
     public GameObject bagPanel;
     public Text NPCText;
+    public bool craftEnabled;
     private bool buttonHeld;
     private bool PI;
     private Transform target;
     private InteractableItem t_Item;
     public bool index_drop;
 
-    private bool exChange;
+    private bool exchanged;
     private bool npcInteractable;
 
     // Use this for initialization
@@ -25,7 +26,7 @@ public class Interact : MonoBehaviour
         // initialize the button
         buttonHeld = false;
         PI = false;
-        exChange = false;
+        exchanged = false;
         npcInteractable = false;
         index_drop = true;
     }
@@ -33,6 +34,9 @@ public class Interact : MonoBehaviour
     public void disable_RESHAPE_function()
     {
         buttonHeld = false;
+        if (craftEnabled) {
+            bagPanel.GetComponent<BagManager>().beginCraft();
+        }
     }
 
     public void disable_PICK_function()
@@ -59,14 +63,19 @@ public class Interact : MonoBehaviour
         {
             npcInteractable = true;
         }
+        if (other.gameObject.CompareTag("Craft"))
+        {
+            craftEnabled = true;
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
+        
         if (other.gameObject.CompareTag("Exchange"))
         {
 
-            if (exChange)
+            if (exchanged)
             {
                 //Search through the bag for the target item;
                 foreach (Transform slot in bagPanel.transform)
@@ -104,7 +113,7 @@ public class Interact : MonoBehaviour
                                 string cc = slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text;
                                 int tcountNew = System.Int32.Parse(cc) + 1;
                                 slotNew.GetChild(0).Find("itemText").GetComponent<Text>().text = "" + tcountNew;
-                                exChange = false;
+                                exchanged = false;
                                 return;
                             }
 
@@ -119,7 +128,7 @@ public class Interact : MonoBehaviour
                                     item.transform.SetParent(slotNew);
                                     item.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
                                     item.name = "Item3";
-                                    exChange = false;
+                                    exchanged = false;
                                     return;
                                 }
                             }
@@ -256,7 +265,12 @@ public class Interact : MonoBehaviour
         {
             NPCText.text = "";
             npcInteractable = false;
-            exChange = false;
+            exchanged = false;
+        }
+        if (other.gameObject.CompareTag("Craft"))
+        {
+            craftEnabled = false;
+            bagPanel.GetComponent<BagManager>().stopCraft();
         }
     }
 
@@ -264,8 +278,7 @@ public class Interact : MonoBehaviour
     {
         if (npcInteractable)
         {
-            exChange = true;
+            exchanged = true;
         }
-
     }
 }
