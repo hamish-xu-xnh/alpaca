@@ -12,7 +12,10 @@ public class BagManager : MonoBehaviour {
     public float slotSize;
     public Vector2 windowSize;
     public Button bagButton;
+    public Button actButton;
+    public GameObject targetItem;
 
+    //before start
     public void Awake()
     {
         bagPanel = this.gameObject;
@@ -40,12 +43,8 @@ public class BagManager : MonoBehaviour {
         }
         this.gameObject.SetActive(false);
     }
-    public void Start()
-    {
-        
-    }
 
-
+    //open and close bag
     public void openBag()
     {
         this.gameObject.SetActive(true);
@@ -69,11 +68,12 @@ public class BagManager : MonoBehaviour {
         }
     }
 
-
+    //Craft mode
     public void beginCraft()
     {
         craftMode = true;
         openBag();
+        actButton.transform.GetChild(0).GetComponent<Text>().text = "Craft";
     }
     public void stopCraft()
     {
@@ -81,15 +81,53 @@ public class BagManager : MonoBehaviour {
             closeBag();
             ClearSelection();
         }
-        
+        actButton.transform.GetChild(0).GetComponent<Text>().text = "Act";
         craftMode = false;
     }
-    public bool inCraftMode()
+    //Count the number of selected items
+    public int selectedCount()
     {
-        return craftMode;
+        int count = 0;
+        foreach (Transform slot in BagManager.bagPanel.transform)
+        {
+            if (slot.childCount == 0 || !slot.GetComponent<SlotManager>().selected)
+            {
+                continue;
+            }
+            else
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    public void craftItem()
+    {
+        if (selectedCount() == 2)
+        {
+            GameObject item1 = findItem("Item1");
+            GameObject item3 = findItem("Item3");
+            if (item1 != null && item3 != null)
+            {
+                if (item1.GetComponent<ItemManager>().selected && item3.GetComponent<ItemManager>().selected)
+                {
+                    reduceItem(item1);
+                    reduceItem(item3);
+                    GameObject targetItem = findItem("Item2");
+                    if (targetItem != null)
+                    {
+                        increaseItem(targetItem);
+                    }
+                    else
+                    {
+                        addItem(targetItem);
+                    }
+                }
+            }
+        }
     }
 
-
+    //unselect all items
     public void ClearSelection()
     {
         foreach (Transform slot in BagManager.bagPanel.transform)
@@ -110,7 +148,7 @@ public class BagManager : MonoBehaviour {
         foreach (Transform slot in bagPanel.transform)
         {
             //if there is no item in this slot
-            if (slot.transform.childCount == 0)
+            if (slot.childCount == 0)
             {
                 continue;
             }
@@ -124,13 +162,14 @@ public class BagManager : MonoBehaviour {
         return null;
     }
 
-    public void addItem(GameObject worldItem)
+    //add a new item to the bag
+    public void addItem(GameObject itemPrefab)
     {
         foreach (Transform slot in BagManager.bagPanel.transform)
         {
-            if (slot.transform.childCount == 0)
+            if (slot.childCount == 0)
             {
-                GameObject itemIcon = Instantiate(worldItem.transform.GetComponent<Item_reference>().Item_UI_prefab) as GameObject;
+                GameObject itemIcon = Instantiate(itemPrefab) as GameObject;
                 itemIcon.transform.SetParent(slot);
                 itemIcon.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
                 itemIcon.name = itemIcon.GetComponent<ItemManager>().itemName;
@@ -138,19 +177,19 @@ public class BagManager : MonoBehaviour {
             }
         }
     }
-
+    //increase an item by 1
     public void increaseItem(GameObject item)
     {
         string number = item.transform.Find("itemText").GetComponent<Text>().text;
         int amount = System.Int32.Parse(number) + 1;
         item.transform.Find("itemText").GetComponent<Text>().text = "" + amount;
 
-        if (amount >= 3)
+        if (item.name=="Item2" && amount >= 2)
         {
             winScreen.SetActive(true);
         }
     }
-
+    //reduce an item by 1
     public void reduceItem(GameObject item)
     {
         string number = item.transform.Find("itemText").GetComponent<Text>().text;

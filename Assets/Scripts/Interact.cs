@@ -9,8 +9,8 @@ public class Interact : MonoBehaviour
     public Image SandValue;
     public Text NPCText;
     public bool craftEnabled;
-    private bool buttonHeld;
-    private bool PI;
+    private bool actPressed;
+    private bool pickPressed;
     private Transform target;
     private InteractableItem t_Item;
     public bool index_drop;
@@ -22,35 +22,46 @@ public class Interact : MonoBehaviour
     void Start()
     {
         // initialize the button
-        buttonHeld = false;
-        PI = false;
+        actPressed = false;
+        pickPressed = false;
 
         exchangeEnabled = false;
         exchanged = false;
         index_drop = true;
     }
 
-    public void disable_RESHAPE_function()
+    public void disable_Act_function()
     {
-        buttonHeld = false;
+        actPressed = false;
+        if (exchangeEnabled)
+        {
+            exchanged = true;
+        }
         if (craftEnabled) {
-            BagManager.bagPanel.GetComponent<BagManager>().beginCraft();
+            if (BagManager.bagPanel.GetComponent<BagManager>().craftMode)
+            {
+                BagManager.bagPanel.GetComponent<BagManager>().craftItem();
+            }
+            else
+            {
+                BagManager.bagPanel.GetComponent<BagManager>().beginCraft();
+            }
         }
     }
 
-    public void disable_PICK_function()
+    public void disable_Pick_function()
     {
-        PI = false;
+        pickPressed = false;
     }
 
-    public void enable_RESHAPE_function()
+    public void enable_Act_function()
     {
-        buttonHeld = true;
+        actPressed = true;
     }
 
-    public void enable_PICK_funtion()
+    public void enable_Pick_funtion()
     {
-        PI = true;
+        pickPressed = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -91,7 +102,7 @@ public class Interact : MonoBehaviour
                     item = BagManager.bagPanel.GetComponent<BagManager>().findItem("Item3");
                     if (item == null)
                     {
-                        BagManager.bagPanel.GetComponent<BagManager>().addItem(other.gameObject);
+                        BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab);
                     }
                     else
                     {
@@ -102,8 +113,8 @@ public class Interact : MonoBehaviour
 
             }
         }
-        //if holding RS button
-        if (buttonHeld)
+        //if holding Act button
+        if (actPressed)
         {
             if (other.gameObject.CompareTag("Interactable"))
             {
@@ -121,7 +132,7 @@ public class Interact : MonoBehaviour
             }
         }
 
-        if (PI)
+        if (pickPressed)
         {
             if (other.gameObject.CompareTag("Item"))
             {
@@ -129,7 +140,7 @@ public class Interact : MonoBehaviour
                 GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem(other.gameObject.name);
                 if (item == null)
                 {
-                    BagManager.bagPanel.GetComponent<BagManager>().addItem(other.gameObject);
+                    BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab);
                 }
                 else
                 {
@@ -177,14 +188,6 @@ public class Interact : MonoBehaviour
         {
             craftEnabled = false;
             BagManager.bagPanel.GetComponent<BagManager>().stopCraft();
-        }
-    }
-
-    public void NPCExchange()
-    {
-        if (exchangeEnabled)
-        {
-            exchanged = true;
         }
     }
 }

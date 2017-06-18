@@ -8,7 +8,7 @@ public class ItemManager : MonoBehaviour {
     public GameObject Text;
     public GameObject icon_chosen;
     public GameObject obj;
-    private bool selected;
+    public bool selected;
 
     public void Start()
     {
@@ -29,7 +29,7 @@ public class ItemManager : MonoBehaviour {
 
     public void Select()
     {
-        if (!BagManager.bagPanel.GetComponent<BagManager>().inCraftMode())
+        if (!BagManager.bagPanel.GetComponent<BagManager>().craftMode)
         {
             BagManager.bagPanel.GetComponent<BagManager>().ClearSelection();
             this.transform.GetChild(1).gameObject.SetActive(true);
@@ -41,7 +41,7 @@ public class ItemManager : MonoBehaviour {
 
     public void Unselect()
     {
-        if (!BagManager.bagPanel.GetComponent<BagManager>().inCraftMode())
+        if (!BagManager.bagPanel.GetComponent<BagManager>().craftMode)
         {
             this.transform.GetChild(1).gameObject.SetActive(false);
             this.transform.GetChild(2).gameObject.SetActive(false);

@@ -72,7 +72,14 @@ public class PlayerMoveControll : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("NPC"))
         {
-            NPCText.text = "Hello! Give me your fire.";
+            if (other.transform.GetChild(0).CompareTag("Exchange"))
+            {
+                NPCText.text = "Hey! Let's trade!";
+            }
+            if (other.transform.GetChild(0).CompareTag("Craft"))
+            {
+                NPCText.text = "Hello, wanna make something new?";
+            }
         }
     }
     void OnTriggerStay(Collider other)
