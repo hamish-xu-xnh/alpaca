@@ -41,11 +41,8 @@ public class ItemManager : MonoBehaviour {
 
     public void Unselect()
     {
-        if (!BagManager.bagPanel.GetComponent<BagManager>().craftMode)
-        {
-            this.transform.GetChild(1).gameObject.SetActive(false);
-            this.transform.GetChild(2).gameObject.SetActive(false);
-        }
+        this.transform.GetChild(1).gameObject.SetActive(false);
+        this.transform.GetChild(2).gameObject.SetActive(false);
         selected = false;
         this.transform.parent.GetComponent<SlotManager>().unselect();
     }

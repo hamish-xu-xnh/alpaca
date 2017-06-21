@@ -45,6 +45,7 @@ public class Interact : MonoBehaviour
             else
             {
                 BagManager.bagPanel.GetComponent<BagManager>().beginCraft();
+                NPCText.text = "Craft new items by combining items";
             }
         }
     }

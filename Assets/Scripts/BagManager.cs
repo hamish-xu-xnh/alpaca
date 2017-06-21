@@ -72,6 +72,7 @@ public class BagManager : MonoBehaviour {
     public void beginCraft()
     {
         craftMode = true;
+        ClearSelection();
         openBag();
         actButton.transform.GetChild(0).GetComponent<Text>().text = "Craft";
     }
