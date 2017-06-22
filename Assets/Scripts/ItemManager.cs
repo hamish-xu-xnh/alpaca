@@ -18,7 +18,7 @@ public class ItemManager : MonoBehaviour {
 
     public void itemFixedUpdate()
     {
-        itemHP -= 0.1f*2*(1- Temperature.temperature);
+        itemHP -= 0.1f*(1- Temperature.temperature);
         Text.GetComponent<Text>().text = "" + (int)itemHP;
         if (itemHP < 0)
         {
@@ -68,7 +68,7 @@ public class ItemManager : MonoBehaviour {
 
     public void Use()
 	{
-        GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(0.6f);
+        GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(0.4f);
         /*
         if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
 			int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;

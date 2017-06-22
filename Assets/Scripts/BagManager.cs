@@ -214,7 +214,7 @@ public class BagManager : MonoBehaviour {
     public void decreseSlot()
     {
         int c=BagManager.bagPanel.transform.childCount;
-        if (c > 0)
+        if (c > 1)
         {
             Destroy(BagManager.bagPanel.transform.GetChild(c - 1).gameObject);
         }

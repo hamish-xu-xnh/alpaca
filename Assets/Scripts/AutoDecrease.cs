@@ -7,8 +7,11 @@ public class AutoDecrease : MonoBehaviour {
     public GameObject win;
     public GameObject lose;
     public Image hole;
+	public GameObject worldCamera;
     public float StartingHitPoint = 100;
+	public Image Portrait;
     private float HitPoint;
+	private float timer;
 
     // Use this for initialization
     void Start () {
@@ -17,7 +20,15 @@ public class AutoDecrease : MonoBehaviour {
 	
     private void FixedUpdate()
     {
-
+		if (Portrait.fillAmount < 1f) {
+			Portrait.fillAmount += 0.002f;
+		}
+		if(worldCamera.activeSelf){
+			timer -= 1f;
+			if(timer<=0f){
+				timeout ();
+			}
+		}
         foreach (Transform slot in BagManager.bagPanel.transform)
         {
             if (slot.childCount == 0)
@@ -62,4 +73,18 @@ public class AutoDecrease : MonoBehaviour {
             Temperature.temperature += amount;
         }
     }
+
+	public void PortraitClicked(){
+		if(Portrait.fillAmount==1f){
+			TakeDamage(20f);
+			timer = 100f;
+			Portrait.fillAmount = 0f;
+			worldCamera.SetActive (true);
+			hole.gameObject.SetActive (false);
+		}
+	}
+	public void timeout(){
+		hole.gameObject.SetActive (true);
+		worldCamera.SetActive (false);
+	}
 }
