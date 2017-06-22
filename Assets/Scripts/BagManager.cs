@@ -178,6 +178,7 @@ public class BagManager : MonoBehaviour {
                 GameObject itemIcon = Instantiate(itemPrefab) as GameObject;
                 itemIcon.GetComponent<ItemManager>().itemHP = hp;
                 itemIcon.transform.SetParent(slot);
+				itemIcon.transform.localScale = new Vector3 (1, 1,1);
                 itemIcon.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
                 itemIcon.name = itemIcon.GetComponent<ItemManager>().itemName;
                 return;
