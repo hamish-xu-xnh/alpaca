@@ -14,15 +14,4 @@ public class LevelManager : MonoBehaviour {
         Application.Quit();
     }
 
-    public void OptionM(bool clicked)
-    {
-        if(clicked == true)
-        {
-            
-        }
-        else
-        {
-
-        }
-    }
 }

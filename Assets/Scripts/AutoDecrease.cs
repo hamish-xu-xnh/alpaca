@@ -6,25 +6,40 @@ using UnityEngine.UI;
 public class AutoDecrease : MonoBehaviour {
     public GameObject win;
     public GameObject lose;
+    public Image hole;
     public float StartingHitPoint = 100;
     private float HitPoint;
-    public Image HitPointBar;
+
     // Use this for initialization
     void Start () {
         HitPoint = StartingHitPoint;
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void FixedUpdate()
     {
-        HitPoint = HitPointBar.fillAmount * StartingHitPoint;
+
+        foreach (Transform slot in BagManager.bagPanel.transform)
+        {
+            if (slot.childCount == 0)
+            {
+                continue;
+            }
+            else
+            {
+                slot.GetChild(0).GetComponent<ItemManager>().itemFixedUpdate();
+            }
+        }
+
+        HitPoint = Temperature.temperature * StartingHitPoint;
+        float size =90f - 70f*(1f-HitPoint/100f);
+        hole.transform.localScale = new Vector3(size, size, 0);
         TakeDamage(0.01f);
 
-        if (HitPoint <= 0 && !win.activeSelf)
+        if (HitPoint >= 100)
+        {
+            win.SetActive(true);
+        }
+        else if (HitPoint <= 0 && !win.activeSelf)
         {
             lose.SetActive(true);
         }
@@ -33,18 +48,18 @@ public class AutoDecrease : MonoBehaviour {
     public void TakeDamage(float amount)
     {
         HitPoint -= amount;
-        HitPointBar.fillAmount = HitPoint / StartingHitPoint;
+        Temperature.temperature = HitPoint / StartingHitPoint;
     }
 
     public void Heal(float amount)
     {
-        if (HitPointBar.fillAmount >= 1- amount)
+        if (Temperature.temperature >= 1- amount)
         {
-            HitPointBar.fillAmount = 1f;
+            win.SetActive(true);
         }
         else
         {
-            HitPointBar.fillAmount += amount;
+            Temperature.temperature += amount;
         }
     }
 }

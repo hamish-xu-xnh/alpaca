@@ -7,21 +7,20 @@ public class PlayerMoveControll : MonoBehaviour {
 
     public static GameObject Player;
     public float m_speed = 12f;
-    public float m_turnSpeed = 180f;
+    public Image Temperature;
 
     public JoyStick moveJoystick;
 
     private string m_MoveVertical;
     private string m_MoveHorizontal;
-    //private string m_TurnAxisName;
-    //private Rigidbody m_Rigidbody;
+
     private float m_MoveHorizontalValue;
     private float m_MoveVerticalValue;
     //private float m_TurnValue;
 
     private Vector3 movement;
 
-    public Text NPCText;
+
 
     public GameObject bagPanel;
     
@@ -32,18 +31,15 @@ public class PlayerMoveControll : MonoBehaviour {
         Player = this.gameObject;
         m_MoveVertical = "Vertical";
         m_MoveHorizontal = "Horizontal";
-        //m_TurnAxisName = "Horizontal";
-        //m_Rigidbody = GetComponent<Rigidbody>();
         movement = new Vector3(0f, 0f, 0f);
 
-        NPCText.text = "";
         
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        m_speed = 20f - 16f * Temperature.fillAmount;
         m_MoveHorizontalValue = Input.GetAxis(m_MoveHorizontal);
         m_MoveVerticalValue = Input.GetAxis(m_MoveVertical);
         //m_TurnValue = Input.GetAxis(m_MoveHorizontal);
@@ -60,6 +56,7 @@ public class PlayerMoveControll : MonoBehaviour {
     }
     void FixedUpdate()
     {
+
         if (movement != Vector3.zero)
         {
             transform.Translate(movement * m_speed * Time.deltaTime, Space.World);
@@ -67,32 +64,7 @@ public class PlayerMoveControll : MonoBehaviour {
         }
     }
 
-    //trigger NPC
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("NPC"))
-        {
-            if (other.transform.GetChild(0).CompareTag("Exchange"))
-            {
-                NPCText.text = "Hey! Let's trade!";
-            }
-            if (other.transform.GetChild(0).CompareTag("Craft"))
-            {
-                NPCText.text = "Hello, wanna make something new?";
-            }
-        }
-    }
-    void OnTriggerStay(Collider other)
-    {
-        
-    }
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("NPC"))
-        {
-            NPCText.text = "";
-        }
-    }
+    
 
     
 }

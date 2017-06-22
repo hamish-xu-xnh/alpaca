@@ -4,12 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class InteractableItem : MonoBehaviour {
-    public Image HitPointBar;
     public float StartingHitPoint=100;
     private float HitPoint;
     //public GameObject obj;
     private bool objectSpawned;
-    public Image SandValue;
+    public Image HitPointBar;
 
 
 	// Use this for initialization
@@ -27,18 +26,7 @@ public class InteractableItem : MonoBehaviour {
     {
         if (gameObject.transform.Find("Canvas").gameObject.activeSelf)
         {
-            if (SandValue.fillAmount >= 0.67f)
-            {
-                TakeDamage(1f);
-            }
-            else if (SandValue.fillAmount <= 0.67f && SandValue.fillAmount >= 0.33f)
-            {
-                TakeDamage(2f);
-            }
-            else
-            {
-                TakeDamage(3f);
-            }
+            TakeDamage(3f * (1 - Temperature.temperature));
         }
         if (HitPoint <= 0)
         {

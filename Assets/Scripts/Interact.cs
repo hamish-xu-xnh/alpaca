@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Interact : MonoBehaviour
 {
     //SphereCollider m_Collider;
-    public Image SandValue;
     public Text NPCText;
     public bool craftEnabled;
     private bool actPressed;
@@ -67,9 +66,7 @@ public class Interact : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name != "NPC"){
-            index_drop = false;
-        }
+        
         if (other.gameObject.CompareTag("Exchange"))
         {
             exchangeEnabled = true;
@@ -82,7 +79,11 @@ public class Interact : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        
+        if (other.name != "NPC" && !other.gameObject.CompareTag("Floor"))
+        {
+            index_drop = false;
+        }
+        /*
         if (other.gameObject.CompareTag("Exchange"))
         {
 
@@ -114,6 +115,7 @@ public class Interact : MonoBehaviour
 
             }
         }
+        */
         //if holding Act button
         if (actPressed)
         {
@@ -137,35 +139,40 @@ public class Interact : MonoBehaviour
         {
             if (other.gameObject.CompareTag("Item"))
             {
-                other.gameObject.SetActive(false);
+                /*
                 GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem(other.gameObject.name);
                 if (item == null)
                 {
-                    BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab);
+                */
+                BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab, other.transform.GetComponent<Item_reference>().itemHP);
+                index_drop = true;
+                Destroy(other.gameObject); 
+                /*
                 }
                 else
                 {
                     BagManager.bagPanel.GetComponent<BagManager>().increaseItem(item);
                     return;
                 }
+                */
 
             }
             else if (other.gameObject.CompareTag("Damage"))
             {
                 other.gameObject.SetActive(false);
-                SandValue.fillAmount -= 0.3f;
+                Temperature.temperature -= 0.3f;
             }
             else if (other.gameObject.CompareTag("Recovery"))
             {
                 other.gameObject.SetActive(false);
 
-                if (SandValue.fillAmount >= 0.6f)
+                if (Temperature.temperature >= 0.6f)
                 {
-                    SandValue.fillAmount = 1f;
+                    Temperature.temperature = 1f;
                 }
                 else
                 {
-                    SandValue.fillAmount += 0.4f;
+                    Temperature.temperature += 0.4f;
                 }
 
             }

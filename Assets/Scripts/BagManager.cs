@@ -14,6 +14,7 @@ public class BagManager : MonoBehaviour {
     public Button bagButton;
     public Button actButton;
     public GameObject targetItem;
+    public Image loseScreen;
 
     //before start
     public void Awake()
@@ -52,6 +53,7 @@ public class BagManager : MonoBehaviour {
     }
     public void closeBag()
     {
+        ClearSelection();
         this.gameObject.SetActive(false);
         bagButton.transform.GetChild(0).GetComponent<Text>().text = "Bag";
     }
@@ -104,6 +106,7 @@ public class BagManager : MonoBehaviour {
     }
     public void craftItem()
     {
+        /*
         if (selectedCount() == 2)
         {
             GameObject item1 = findItem("Item1");
@@ -126,6 +129,7 @@ public class BagManager : MonoBehaviour {
                 }
             }
         }
+        */
     }
 
     //unselect all items
@@ -143,7 +147,7 @@ public class BagManager : MonoBehaviour {
             }
         }
     }
-
+    /*
     public GameObject findItem(string name)
     {
         foreach (Transform slot in bagPanel.transform)
@@ -162,15 +166,17 @@ public class BagManager : MonoBehaviour {
         //if item not found
         return null;
     }
+    */
 
     //add a new item to the bag
-    public void addItem(GameObject itemPrefab)
+    public void addItem(GameObject itemPrefab,float hp)
     {
         foreach (Transform slot in BagManager.bagPanel.transform)
         {
             if (slot.childCount == 0)
             {
                 GameObject itemIcon = Instantiate(itemPrefab) as GameObject;
+                itemIcon.GetComponent<ItemManager>().itemHP = hp;
                 itemIcon.transform.SetParent(slot);
                 itemIcon.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
                 itemIcon.name = itemIcon.GetComponent<ItemManager>().itemName;
@@ -178,6 +184,7 @@ public class BagManager : MonoBehaviour {
             }
         }
     }
+    /*
     //increase an item by 1
     public void increaseItem(GameObject item)
     {
@@ -200,5 +207,20 @@ public class BagManager : MonoBehaviour {
         {
             Destroy(item.transform.gameObject);
         }
+    }
+    */
+
+    public void decreseSlot()
+    {
+        int c=BagManager.bagPanel.transform.childCount;
+        if (c > 0)
+        {
+            Destroy(BagManager.bagPanel.transform.GetChild(c - 1).gameObject);
+        }
+        else
+        {
+            loseScreen.gameObject.SetActive(true);
+        }
+        
     }
 }
