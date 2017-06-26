@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AutoDecrease : MonoBehaviour {
-    public GameObject win;
-    public GameObject lose;
     public Image hole;
 	public GameObject worldCamera;
     public float StartingHitPoint = 100;
@@ -32,12 +30,12 @@ public class AutoDecrease : MonoBehaviour {
             Timertxt.GetComponent<Text>().text = string.Format("{0:d2} : {1:d2}", time_limit / 60, time_limit % 60);
             time_slot = 0;
         }
-
+        /*
         if(time_limit<=0 && !win.activeSelf)
         {
             lose.SetActive(true);
         }
-
+        */
         if (Portrait.fillAmount < 1f) {
 			Portrait.fillAmount += 0.002f;
 		}
@@ -64,14 +62,6 @@ public class AutoDecrease : MonoBehaviour {
         hole.transform.localScale = new Vector3(size, size, 0);
         TakeDamage(0.01f);
 
-        if (HitPoint >= 100)
-        {
-            win.SetActive(true);
-        }
-        else if (HitPoint <= 0 && !win.activeSelf)
-        {
-            lose.SetActive(true);
-        }
     }
 
     public void TakeDamage(float amount)
@@ -82,14 +72,7 @@ public class AutoDecrease : MonoBehaviour {
 
     public void Heal(float amount)
     {
-        if (Temperature.temperature >= 1- amount)
-        {
-            win.SetActive(true);
-        }
-        else
-        {
-            Temperature.temperature += amount;
-        }
+        Temperature.temperature += amount;
     }
 
 	public void PortraitClicked(){

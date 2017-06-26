@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class BagManager : MonoBehaviour {
     public static GameObject bagPanel;
-    public GameObject winScreen;
     public bool craftMode;
     public GameObject slotPrefab;
     public Vector2 inventorySize = new Vector2 (4, 2);
@@ -13,8 +12,6 @@ public class BagManager : MonoBehaviour {
     public Vector2 windowSize;
     public Button bagButton;
     public Button actButton;
-    public GameObject targetItem;
-    public Image loseScreen;
 
     //before start
     public void Awake()
@@ -217,10 +214,6 @@ public class BagManager : MonoBehaviour {
         if (c > 1)
         {
             Destroy(BagManager.bagPanel.transform.GetChild(c - 1).gameObject);
-        }
-        else
-        {
-            loseScreen.gameObject.SetActive(true);
         }
         
     }

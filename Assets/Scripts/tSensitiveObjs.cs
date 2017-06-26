@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour {
+public class tSensitiveObjs : MonoBehaviour {
     public float highTemperature;
     public float lowTemperature;
 
