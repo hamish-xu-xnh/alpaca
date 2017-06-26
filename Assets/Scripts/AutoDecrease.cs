@@ -12,15 +12,33 @@ public class AutoDecrease : MonoBehaviour {
 	public Image Portrait;
     private float HitPoint;
 	private float timer;
+    private static int time_limit;
+    private float time_slot;
+    public GameObject Timertxt;
 
     // Use this for initialization
     void Start () {
         HitPoint = StartingHitPoint;
+        time_limit = 100;
+        time_slot = 0f;
     }
 	
     private void FixedUpdate()
     {
-		if (Portrait.fillAmount < 1f) {
+        time_slot += 0.02f;
+        if (time_slot >= 1)
+        {
+            time_limit--;
+            Timertxt.GetComponent<Text>().text = string.Format("{0:d2} : {1:d2}", time_limit / 60, time_limit % 60);
+            time_slot = 0;
+        }
+
+        if(time_limit<=0 && !win.activeSelf)
+        {
+            lose.SetActive(true);
+        }
+
+        if (Portrait.fillAmount < 1f) {
 			Portrait.fillAmount += 0.002f;
 		}
 		if(worldCamera.activeSelf){
@@ -76,7 +94,7 @@ public class AutoDecrease : MonoBehaviour {
 
 	public void PortraitClicked(){
 		if(Portrait.fillAmount==1f){
-			TakeDamage(20f);
+            time_limit -= 20;
 			timer = 100f;
 			Portrait.fillAmount = 0f;
 			worldCamera.SetActive (true);

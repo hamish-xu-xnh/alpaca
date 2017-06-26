@@ -157,6 +157,26 @@ public class Interact : MonoBehaviour
                 */
 
             }
+            if (other.gameObject.CompareTag("Star"))
+            {
+                /*
+                GameObject item = BagManager.bagPanel.GetComponent<BagManager>().findItem(other.gameObject.name);
+                if (item == null)
+                {
+                */
+                StarManager.starPanel.GetComponent<StarManager>().addStar(other.transform.GetComponent<Item_reference>().Item_UI_prefab, other.transform.GetComponent<Item_reference>().itemHP);
+                index_drop = true;
+                Destroy(other.gameObject);
+                /*
+                }
+                else
+                {
+                    BagManager.bagPanel.GetComponent<BagManager>().increaseItem(item);
+                    return;
+                }
+                */
+
+            }
             else if (other.gameObject.CompareTag("Damage"))
             {
                 other.gameObject.SetActive(false);

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerCollide : MonoBehaviour {
     public Text NPCText;
+    public GameObject win;
     //trigger NPC
     private void Start()
     {
@@ -27,7 +28,10 @@ public class PlayerCollide : MonoBehaviour {
         {
             BagManager.bagPanel.GetComponent<BagManager>().decreseSlot();
         }
-
+        else if (other.name == "Exit" && StarManager.starPanel.transform.GetChild(0).childCount > 0)
+        {
+            win.SetActive(true);
+        }
     }
     void OnTriggerStay(Collider other)
     {
