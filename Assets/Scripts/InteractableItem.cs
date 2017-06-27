@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class InteractableItem : MonoBehaviour {
     public float StartingHitPoint=100;
     private float HitPoint;
-    //public GameObject obj;
-    private bool objectSpawned;
+    public GameObject obj;
+    public bool objectSpawned;
     public Image HitPointBar;
 
 
@@ -26,7 +26,7 @@ public class InteractableItem : MonoBehaviour {
     {
         if (gameObject.transform.Find("Canvas").gameObject.activeSelf)
         {
-            TakeDamage(3f * (1 - Temperature.temperature));
+            TakeDamage(3f * (1 - Temperature.temperature)*(1+PlayerMoveControll.bs));
         }
         if (HitPoint <= 0)
         {
@@ -54,14 +54,27 @@ public class InteractableItem : MonoBehaviour {
     {
         gameObject.transform.Find("BeforeInteracted").gameObject.SetActive(false);
         gameObject.transform.Find("AfterInteracted").gameObject.SetActive(true);
+        InteractStoped();
         if (!objectSpawned) {
         spawn();
         }
+        HitPoint = StartingHitPoint;
     }
-
-    void spawn()
+    /*
+    public void respawn()
     {
-        gameObject.transform.Find("Item").gameObject.SetActive(true);
+        objectSpawned = false;
+        gameObject.transform.Find("BeforeInteracted").gameObject.SetActive(true);
+        gameObject.transform.Find("AfterInteracted").gameObject.SetActive(false);
+    }
+    */
+
+    public void spawn()
+    {
+        GameObject item = Instantiate(obj) as GameObject;
+        item.SetActive(true);
+        item.transform.SetParent(transform.GetChild(2));
+        item.transform.localPosition = Vector3.zero;
         objectSpawned = true;
     }
 }

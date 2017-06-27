@@ -206,7 +206,6 @@ public class BagManager : MonoBehaviour {
             Destroy(item.transform.gameObject);
         }
     }
-    */
 
     public void decreseSlot()
     {
@@ -217,4 +216,5 @@ public class BagManager : MonoBehaviour {
         }
         
     }
+    */
 }

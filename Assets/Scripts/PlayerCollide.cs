@@ -25,7 +25,7 @@ public class PlayerCollide : MonoBehaviour {
         }
         else if (other.gameObject.CompareTag("Trap"))
         {
-            BagManager.bagPanel.GetComponent<BagManager>().decreseSlot();
+            StarManager.starPanel.GetComponent<StarManager>().reduceStar();
         }
         else if (other.name == "Exit" && StarManager.starPanel.transform.GetChild(0).childCount > 0)
         {

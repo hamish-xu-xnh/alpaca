@@ -8,6 +8,7 @@ public class ItemManager : MonoBehaviour {
     public GameObject Text;
     public GameObject icon_chosen;
     public GameObject obj;
+    public string intObjName;
     public bool selected;
     public float itemHP;
 
@@ -18,7 +19,7 @@ public class ItemManager : MonoBehaviour {
 
     public void itemFixedUpdate()
     {
-        itemHP -= 0.1f*(1- Temperature.temperature);
+        itemHP -= 0.1f*(1- Temperature.temperature) * (1 - Item_reference.bc);
         Text.GetComponent<Text>().text = "" + (int)itemHP;
         if (itemHP < 0)
         {
@@ -68,20 +69,40 @@ public class ItemManager : MonoBehaviour {
 
     public void Use()
 	{
-        GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(0.4f);
-        /*
-        if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
-			int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
-            Text.GetComponent<Text> ().text = "" + tcount;
+        if (this.name == "IceItem")
+        {
+            GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(0.25f);
+            /*
+            if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
+                int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
+                Text.GetComponent<Text> ().text = "" + tcount;
 
-        }
-        else {
-        */
+            }
+            else {
+            */
             Unselect();
             Destroy(this.gameObject);
-        /*
+            /*
+            }
+            */
         }
-        */
+        if (this.name == "FireItem")
+        {
+            GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(-0.25f);
+            /*
+            if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
+                int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
+                Text.GetComponent<Text> ().text = "" + tcount;
+
+            }
+            else {
+            */
+            Unselect();
+            Destroy(this.gameObject);
+            /*
+            }
+            */
+        }
     }
 
     public void Drop()

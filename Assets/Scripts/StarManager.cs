@@ -14,8 +14,6 @@ public class StarManager : MonoBehaviour {
     public Vector2 windowSize;
     //public Button bagButton;
     //public Button actButton;
-    //public GameObject targetItem;
-    
 
     //before start
     public void Awake()
@@ -59,7 +57,70 @@ public class StarManager : MonoBehaviour {
 				itemIcon.transform.localScale = new Vector3 (1, 1, 1);
                 itemIcon.GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
                 itemIcon.name = itemIcon.GetComponent<ItemManager>().itemName;
+
+                if (itemIcon.name == "Star")
+                {
+                    AutoDecrease.bv = 0.2f;
+                }
+                else if (itemIcon.name == "Moon")
+                {
+                    PlayerMoveControll.bs = 0.2f;
+                }
+                else//itemIcon.name == "Snowflake"
+                {
+                    Item_reference.bc = 0.2f;
+                }
+
                 return;
+            }
+        }
+    }
+
+    public void reduceStar()
+    {
+        //check if player has any star
+        if (transform.GetChild(0).childCount != 0)
+        {
+            transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP -= 25;
+            transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = "" + (int)transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP;
+            //remove 1st star when its hp less than 0
+            if (transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP <= 0)
+            {
+                GameObject.Find("Worldspace").transform.Find(transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().intObjName).GetComponent<InteractableItem>().spawn();
+
+                if (transform.GetChild(0).GetChild(0).gameObject.name == "Star")
+                {
+                    AutoDecrease.bv = 0f;
+                }
+                else if (transform.GetChild(0).GetChild(0).gameObject.name == "Moon")
+                {
+                    PlayerMoveControll.bs = 0f;
+                }
+                else//itemIcon.name == "Snowflake"
+                {
+                    Item_reference.bc = 0f;
+                }
+
+                Destroy(transform.GetChild(0).GetChild(0).gameObject);
+
+
+
+                //move the 2nd star (if exist) to the 1st slot
+                if (transform.GetChild(1).childCount != 0)
+                {
+                    transform.GetChild(1).GetChild(0).SetParent(transform.GetChild(0));
+                    //move the 3rd star (if exist) to the 2nd slot
+                    if (transform.GetChild(2).childCount != 0)
+                    {
+                        transform.GetChild(2).GetChild(0).SetParent(transform.GetChild(1));
+                        transform.GetChild(1).GetChild(0).transform.localPosition = Vector3.zero;
+                    }
+                    transform.GetChild(0).GetChild(0).transform.localPosition = Vector3.zero;
+                    if (transform.GetChild(0).childCount > 1)
+                    {
+                        transform.GetChild(0).GetChild(1).transform.localPosition = Vector3.zero;
+                    }
+                }
             }
         }
     }

@@ -7,6 +7,7 @@ public class PlayerMoveControll : MonoBehaviour {
 
     public static GameObject Player;
     public float m_speed = 12f;
+    public static float bs;
     public Image Temperature;
 
     public JoyStick moveJoystick;
@@ -32,6 +33,7 @@ public class PlayerMoveControll : MonoBehaviour {
         m_MoveVertical = "Vertical";
         m_MoveHorizontal = "Horizontal";
         movement = new Vector3(0f, 0f, 0f);
+        bs = 0f;
 
         
     }
@@ -39,7 +41,7 @@ public class PlayerMoveControll : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        m_speed = 20f - 16f * Temperature.fillAmount;
+        m_speed = 20f - 16f * Temperature.fillAmount*(1+bs);
         m_MoveHorizontalValue = Input.GetAxis(m_MoveHorizontal);
         m_MoveVerticalValue = Input.GetAxis(m_MoveVertical);
         //m_TurnValue = Input.GetAxis(m_MoveHorizontal);

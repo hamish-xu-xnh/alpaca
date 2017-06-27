@@ -13,12 +13,14 @@ public class AutoDecrease : MonoBehaviour {
     private static int time_limit;
     private float time_slot;
     public GameObject Timertxt;
+    public static float bv;
 
     // Use this for initialization
     void Start () {
         HitPoint = StartingHitPoint;
         time_limit = 100;
         time_slot = 0f;
+        bv = 0f;
     }
 	
     private void FixedUpdate()
@@ -56,11 +58,21 @@ public class AutoDecrease : MonoBehaviour {
                 slot.GetChild(0).GetComponent<ItemManager>().itemFixedUpdate();
             }
         }
-
-        HitPoint = Temperature.temperature * StartingHitPoint;
-        float size =90f - 70f*(1f-HitPoint/100f);
-        hole.transform.localScale = new Vector3(size, size, 0);
-        TakeDamage(0.01f);
+        if (Temperature.temperature < 0.4)
+        {
+            HitPoint = Temperature.temperature * StartingHitPoint;
+            float size = 90f - 70f * (1f - HitPoint / 100f) * (1 - bv);
+            hole.transform.localScale = new Vector3(size, size, 0);
+            TakeDamage(0.01f);
+        }
+        else if(Temperature.temperature > 0.6)
+        {
+            HitPoint = Temperature.temperature * StartingHitPoint;
+            float size = 90f - 70f * (1f - HitPoint / 100f) * (1 - bv);
+            hole.transform.localScale = new Vector3(size, size, 0);
+            TakeDamage(-0.01f);
+        }
+        
 
     }
 

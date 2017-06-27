@@ -164,9 +164,12 @@ public class Interact : MonoBehaviour
                 if (item == null)
                 {
                 */
-                StarManager.starPanel.GetComponent<StarManager>().addStar(other.transform.GetComponent<Item_reference>().Item_UI_prefab, other.transform.GetComponent<Item_reference>().itemHP);
+                StarManager.starPanel.GetComponent<StarManager>().addStar(other.transform.GetComponent<Item_reference>().Item_UI_prefab, 100);
                 index_drop = true;
                 Destroy(other.gameObject);
+
+
+
                 /*
                 }
                 else
