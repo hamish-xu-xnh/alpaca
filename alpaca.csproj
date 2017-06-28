@@ -84,8 +84,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AutoDecrease.cs" />
     <Compile Include="Assets\Scripts\BagManager.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Interact.cs" />
     <Compile Include="Assets\Scripts\InteractableItem.cs" />
     <Compile Include="Assets\Scripts\ItemManager.cs" />
@@ -98,7 +98,6 @@
     <Compile Include="Assets\Scripts\Rotate.cs" />
     <Compile Include="Assets\Scripts\SlotManager.cs" />
     <Compile Include="Assets\Scripts\StarManager.cs" />
-    <Compile Include="Assets\Scripts\Temperature.cs" />
     <Compile Include="Assets\Scripts\tSensitiveObjs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -19,7 +19,7 @@ public class ItemManager : MonoBehaviour {
 
     public void itemFixedUpdate()
     {
-        itemHP -= 0.1f*(1- Temperature.temperature) * (1 - Item_reference.bc);
+        itemHP -= 0.1f*(GameManager.temperature) * (1 - GameManager.bc);
         Text.GetComponent<Text>().text = "" + (int)itemHP;
         if (itemHP < 0)
         {
@@ -71,7 +71,7 @@ public class ItemManager : MonoBehaviour {
 	{
         if (this.name == "IceItem")
         {
-            GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(0.25f);
+            GameObject.Find("Canvas").GetComponent<GameManager>().IceItemUsed();
             /*
             if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
                 int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
@@ -88,20 +88,39 @@ public class ItemManager : MonoBehaviour {
         }
         if (this.name == "FireItem")
         {
-            GameObject.Find("Canvas").GetComponent<AutoDecrease>().Heal(-0.25f);
-            /*
-            if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
-                int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
-                Text.GetComponent<Text> ().text = "" + tcount;
-
-            }
-            else {
-            */
+            GameObject.Find("Canvas").GetComponent<GameManager>().FireItemUsed();
             Unselect();
             Destroy(this.gameObject);
-            /*
-            }
-            */
+        }
+        if (this.name == "SpeedItem")
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().SpeedItemUsed();
+            Unselect();
+            Destroy(this.gameObject);
+        }
+        if (this.name == "VisionItem")
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().VisionItemUsed();
+            Unselect();
+            Destroy(this.gameObject);
+        }
+        if (this.name == "GhostItem")
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().GhostItemUsed();
+            Unselect();
+            Destroy(this.gameObject);
+        }
+        if (this.name == "AmplifyItem")
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().AmplifyItemUsed();
+            Unselect();
+            Destroy(this.gameObject);
+        }
+        if (this.name == "FreezeItem")
+        {
+            GameObject.Find("Canvas").GetComponent<GameManager>().FreezeItemUsed();
+            Unselect();
+            Destroy(this.gameObject);
         }
     }
 

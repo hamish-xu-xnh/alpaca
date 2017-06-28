@@ -60,15 +60,15 @@ public class StarManager : MonoBehaviour {
 
                 if (itemIcon.name == "Star")
                 {
-                    AutoDecrease.bv = 0.2f;
+                    GameManager.bv += 0.2f;
                 }
                 else if (itemIcon.name == "Moon")
                 {
-                    PlayerMoveControll.bs = 0.2f;
+                    GameManager.bs += 0.5f;
                 }
                 else//itemIcon.name == "Snowflake"
                 {
-                    Item_reference.bc = 0.2f;
+                    GameManager.bc += 0.5f;
                 }
 
                 return;
@@ -90,15 +90,15 @@ public class StarManager : MonoBehaviour {
 
                 if (transform.GetChild(0).GetChild(0).gameObject.name == "Star")
                 {
-                    AutoDecrease.bv = 0f;
+                    GameManager.bv -= 0.2f;
                 }
                 else if (transform.GetChild(0).GetChild(0).gameObject.name == "Moon")
                 {
-                    PlayerMoveControll.bs = 0f;
+                    GameManager.bs -= 0.5f;
                 }
                 else//itemIcon.name == "Snowflake"
                 {
-                    Item_reference.bc = 0f;
+                    GameManager.bc -= 0.2f;
                 }
 
                 Destroy(transform.GetChild(0).GetChild(0).gameObject);

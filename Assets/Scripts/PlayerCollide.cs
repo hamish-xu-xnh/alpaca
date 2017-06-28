@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerCollide : MonoBehaviour {
     public Text NPCText;
@@ -29,7 +30,7 @@ public class PlayerCollide : MonoBehaviour {
         }
         else if (other.name == "Exit" && StarManager.starPanel.transform.GetChild(0).childCount > 0)
         {
-            //win.SetActive(true);
+            SceneManager.LoadScene("Win");
         }
     }
     void OnTriggerStay(Collider other)

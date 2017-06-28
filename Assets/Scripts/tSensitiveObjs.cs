@@ -8,7 +8,7 @@ public class tSensitiveObjs : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (Temperature.temperature < highTemperature && Temperature.temperature > lowTemperature)
+        if (GameManager.temperature < highTemperature && GameManager.temperature > lowTemperature)
         {
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
@@ -18,6 +18,9 @@ public class tSensitiveObjs : MonoBehaviour {
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         }
-
+        if (GameManager.GhostFlag)
+        {
+            this.gameObject.GetComponent<BoxCollider>().enabled = false;
+        }
     }
 }

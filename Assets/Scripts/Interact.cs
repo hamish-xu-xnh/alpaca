@@ -63,7 +63,7 @@ public class Interact : MonoBehaviour
     {
         pickPressed = true;
     }
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
         
@@ -76,6 +76,7 @@ public class Interact : MonoBehaviour
             craftEnabled = true;
         }
     }
+    */
 
     private void OnTriggerStay(Collider other)
     {
@@ -86,7 +87,6 @@ public class Interact : MonoBehaviour
         /*
         if (other.gameObject.CompareTag("Exchange"))
         {
-
             if (exchanged)
             {
                 //Search through the bag for the target item;
@@ -167,9 +167,6 @@ public class Interact : MonoBehaviour
                 StarManager.starPanel.GetComponent<StarManager>().addStar(other.transform.GetComponent<Item_reference>().Item_UI_prefab, 100);
                 index_drop = true;
                 Destroy(other.gameObject);
-
-
-
                 /*
                 }
                 else
@@ -178,27 +175,26 @@ public class Interact : MonoBehaviour
                     return;
                 }
                 */
-
             }
+            /*
             else if (other.gameObject.CompareTag("Damage"))
             {
                 other.gameObject.SetActive(false);
-                Temperature.temperature -= 0.3f;
+                GameManager.temperature -= 0.3f;
             }
             else if (other.gameObject.CompareTag("Recovery"))
             {
                 other.gameObject.SetActive(false);
-
-                if (Temperature.temperature >= 0.6f)
+                if (GameManager.temperature >= 0.6f)
                 {
-                    Temperature.temperature = 1f;
+                    GameManager.temperature = 1f;
                 }
                 else
                 {
-                    Temperature.temperature += 0.4f;
+                    GameManager.temperature += 0.4f;
                 }
-
             }
+            */
         }
 
     }
@@ -210,6 +206,7 @@ public class Interact : MonoBehaviour
         {
             other.gameObject.transform.GetComponent<InteractableItem>().InteractStoped();
         }
+        /*
         if (other.gameObject.CompareTag("Exchange"))
         {
             exchangeEnabled = false;
@@ -220,5 +217,6 @@ public class Interact : MonoBehaviour
             craftEnabled = false;
             BagManager.bagPanel.GetComponent<BagManager>().stopCraft();
         }
+        */
     }
 }

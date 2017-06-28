@@ -26,7 +26,7 @@ public class InteractableItem : MonoBehaviour {
     {
         if (gameObject.transform.Find("Canvas").gameObject.activeSelf)
         {
-            TakeDamage(3f * (1 - Temperature.temperature)*(1+PlayerMoveControll.bs));
+            TakeDamage(3f * (GameManager.temperature+0.1f)*(1+ GameManager.bs * (1 + GameManager.ba)));
         }
         if (HitPoint <= 0)
         {
