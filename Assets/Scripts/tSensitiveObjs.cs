@@ -12,11 +12,16 @@ public class tSensitiveObjs : MonoBehaviour {
         {
             this.gameObject.GetComponent<BoxCollider>().enabled = true;
             this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            if (transform.childCount > 0)
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
         else
         {
             this.gameObject.GetComponent<BoxCollider>().enabled = false;
             this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            transform.GetChild(0).gameObject.SetActive(false);
         }
         if (GameManager.GhostFlag)
         {

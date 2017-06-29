@@ -11,16 +11,32 @@ public class ItemManager : MonoBehaviour {
     public string intObjName;
     public bool selected;
     public float itemHP;
+    private float ItemTimer;
+    private bool ItemFlag = false;
 
     public void Start()
     {
+        ItemTimer = 500f;
         selected = false;
     }
 
     public void itemFixedUpdate()
     {
-        itemHP -= 0.1f*(GameManager.temperature) * (1 - GameManager.bc);
-        Text.GetComponent<Text>().text = "" + (int)itemHP;
+        this.GetComponent<Image>().fillAmount = ItemTimer / 500;
+        if (ItemFlag)
+        {
+            ItemTimer -= 1f;
+            if (ItemTimer <= 0f)
+            {
+                ItemTimeout();
+            }
+        }
+        else
+        {
+            itemHP -= 0.1f * (GameManager.temperature) * (1 - GameManager.bc);
+            Text.GetComponent<Text>().text = "" + (int)itemHP;
+        }
+
         if (itemHP < 0)
         {
             Unselect();
@@ -49,12 +65,18 @@ public class ItemManager : MonoBehaviour {
 
     public void Select()
     {
+        /*
         if (!BagManager.bagPanel.GetComponent<BagManager>().craftMode)
         {
+        */
+        if (!ItemFlag) {
             BagManager.bagPanel.GetComponent<BagManager>().ClearSelection();
             this.transform.GetChild(1).gameObject.SetActive(true);
             this.transform.GetChild(2).gameObject.SetActive(true);
         }
+        /*
+        }
+        */
         selected = true;
         this.transform.parent.GetComponent<SlotManager>().select();
     }
@@ -76,52 +98,42 @@ public class ItemManager : MonoBehaviour {
             if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
                 int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
                 Text.GetComponent<Text> ().text = "" + tcount;
-
             }
             else {
-            */
             Unselect();
-            Destroy(this.gameObject);
-            /*
+           
             }
             */
+            Destroy(this.gameObject);
         }
         if (this.name == "FireItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().FireItemUsed();
-            Unselect();
             Destroy(this.gameObject);
         }
         if (this.name == "SpeedItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().SpeedItemUsed();
-            Unselect();
-            Destroy(this.gameObject);
         }
         if (this.name == "VisionItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().VisionItemUsed();
-            Unselect();
-            Destroy(this.gameObject);
         }
         if (this.name == "GhostItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().GhostItemUsed();
-            Unselect();
-            Destroy(this.gameObject);
         }
         if (this.name == "AmplifyItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().AmplifyItemUsed();
-            Unselect();
-            Destroy(this.gameObject);
         }
         if (this.name == "FreezeItem")
         {
             GameObject.Find("Canvas").GetComponent<GameManager>().FreezeItemUsed();
-            Unselect();
-            Destroy(this.gameObject);
         }
+        this.transform.GetChild(0).gameObject.SetActive(false);
+        Unselect();
+        ItemUsed();
     }
 
     public void Drop()
@@ -138,13 +150,22 @@ public class ItemManager : MonoBehaviour {
                 item.SetActive(true);
                 item.name = this.name;
                 item.GetComponent<Item_reference>().itemHP = this.itemHP;
-
             /*
             }
             */
             Unselect();
             Destroy(this.gameObject);
         }
-        
+    }
+
+    public void ItemUsed()
+    {
+        ItemTimer = 500f;//10 Seconds
+        ItemFlag = true;
+    }
+    public void ItemTimeout()
+    {
+        ItemFlag = false;
+        Destroy(this.gameObject);
     }
 }

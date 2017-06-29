@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerMoveControll : MonoBehaviour {
 
     public static GameObject Player;
-    public float m_speed = 12f;
+    public float m_speed;
 
     public JoyStick moveJoystick;
 
@@ -18,11 +18,6 @@ public class PlayerMoveControll : MonoBehaviour {
     //private float m_TurnValue;
 
     private Vector3 movement;
-
-
-
-    public GameObject bagPanel;
-    
 
     // Use this for initialization
     void Start()

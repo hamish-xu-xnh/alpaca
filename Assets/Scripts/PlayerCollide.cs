@@ -5,14 +5,17 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerCollide : MonoBehaviour {
+    /*
     public Text NPCText;
     //trigger NPC
     private void Start()
     {
         NPCText.text = "";
     }
+    */
     void OnTriggerEnter(Collider other)
     {
+        /*
         if (other.gameObject.CompareTag("NPC"))
         {
             if (other.transform.GetChild(0).CompareTag("Exchange"))
@@ -24,7 +27,7 @@ public class PlayerCollide : MonoBehaviour {
                 NPCText.text = "Hello, wanna make something new?";
             }
         }
-        else if (other.gameObject.CompareTag("Trap"))
+        else */if (other.gameObject.CompareTag("Trap"))
         {
             StarManager.starPanel.GetComponent<StarManager>().reduceStar();
         }
@@ -33,6 +36,7 @@ public class PlayerCollide : MonoBehaviour {
             SceneManager.LoadScene("Win");
         }
     }
+    /*
     void OnTriggerStay(Collider other)
     {
 
@@ -44,4 +48,5 @@ public class PlayerCollide : MonoBehaviour {
             NPCText.text = "";
         }
     }
+    */
 }

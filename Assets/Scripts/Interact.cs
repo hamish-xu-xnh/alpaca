@@ -13,25 +13,27 @@ public class Interact : MonoBehaviour
     private Transform target;
     private InteractableItem t_Item;
     public bool index_drop;
-
+    /*
     private bool exchangeEnabled;
     private bool exchanged;
-
+    */
     // Use this for initialization
     void Start()
     {
         // initialize the button
         actPressed = false;
         pickPressed = false;
-
+        /*
         exchangeEnabled = false;
         exchanged = false;
+        */
         index_drop = true;
     }
 
     public void disable_Act_function()
     {
         actPressed = false;
+        /*
         if (exchangeEnabled)
         {
             exchanged = true;
@@ -47,6 +49,7 @@ public class Interact : MonoBehaviour
                 NPCText.text = "Craft new items by combining items";
             }
         }
+        */
     }
 
     public void disable_Pick_function()
