@@ -34,6 +34,24 @@ public class PlayerMoveControll : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.temperature < 0.4)
+        {
+            transform.GetChild(2).gameObject.SetActive(true);
+            transform.GetChild(3).gameObject.SetActive(false);
+            transform.GetChild(4).gameObject.SetActive(false);
+        }
+        else if (GameManager.temperature > 0.6)
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
+            transform.GetChild(3).gameObject.SetActive(false);
+            transform.GetChild(4).gameObject.SetActive(true);
+        }
+        else
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
+            transform.GetChild(3).gameObject.SetActive(true);
+            transform.GetChild(4).gameObject.SetActive(false);
+        }
         m_speed = (20f - 16f * (1- GameManager.temperature))*(1+ GameManager.bs * (1 + GameManager.ba));
         m_MoveHorizontalValue = Input.GetAxis(m_MoveHorizontal);
         m_MoveVerticalValue = Input.GetAxis(m_MoveVertical);

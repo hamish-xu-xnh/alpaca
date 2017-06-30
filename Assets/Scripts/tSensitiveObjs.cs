@@ -10,7 +10,19 @@ public class tSensitiveObjs : MonoBehaviour {
 	void Update () {
         if (GameManager.temperature < highTemperature && GameManager.temperature > lowTemperature)
         {
-            this.gameObject.GetComponent<BoxCollider>().enabled = true;
+            if (gameObject.GetComponent<BoxCollider>() != null)//ice wall and fire wall
+            {
+                this.gameObject.GetComponent<BoxCollider>().enabled = true;
+                //this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+                if (transform.childCount > 0)
+                {
+                    transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+            else//environment change
+            {
+                this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            }
             //this.gameObject.GetComponent<MeshRenderer>().enabled = true;
             if (transform.childCount > 0)
             {
@@ -19,16 +31,26 @@ public class tSensitiveObjs : MonoBehaviour {
         }
         else
         {
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
-            //this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            if (transform.childCount > 0)
+            if (gameObject.GetComponent<BoxCollider>() != null)
             {
-                transform.GetChild(0).gameObject.SetActive(false);
+                this.gameObject.GetComponent<BoxCollider>().enabled = false;
+                //this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                if (transform.childCount > 0)
+                {
+                    transform.GetChild(0).gameObject.SetActive(false);
+                }
+            }
+            else//environment change
+            {
+                this.gameObject.GetComponent<MeshRenderer>().enabled = false;
             }
         }
         if (GameManager.GhostFlag)
         {
-            this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            if (gameObject.GetComponent<BoxCollider>() != null)//ice wall and fire wall
+            {
+                this.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
         }
     }
 }
