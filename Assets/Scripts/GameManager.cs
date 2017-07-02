@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
         if (time_slot >= 1)
         {
             time_limit--;
-            Timertxt.GetComponent<Text>().text = string.Format("{0:d2} : {1:d2}", time_limit / 60, time_limit % 60);
+            Timertxt.GetComponent<Text>().text = string.Format("{0:d1}:{1:d2}", time_limit / 60, time_limit % 60);
             time_slot = 0;
         }
         if (time_limit <= 0)
