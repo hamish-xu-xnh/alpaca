@@ -1,4 +1,4 @@
 sceneSetups:
-- path: E:/526/git-unity/alpaca-alpha/Assets/Scenes/Alpha.unity
+- path: Assets/Scenes/Beta.unity
   isLoaded: 1
   isActive: 1
