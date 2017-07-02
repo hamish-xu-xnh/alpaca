@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/map3.unity
+- path: E:/526/git-unity/alpaca-alpha/Assets/Scenes/Alpha.unity
   isLoaded: 1
   isActive: 1
