@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
     private bool AmplifyFlag = false;
     private float FreezeTimer;
     private bool FreezeFlag=false;
-    private static int time_limit;
+    public static int time_limit;
     private float time_slot;
     public GameObject Timertxt;
 

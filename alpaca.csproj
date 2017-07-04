@@ -140,10 +140,10 @@
     <None Include="Assets\GE Common Assets\Readme.txt" />
     <None Include="Assets\GUI Animator\GUI Animator FREE\!How to.txt" />
     <None Include="Assets\GUI Animator\GUI Animator FREE\Readme.txt" />
+    <None Include="Assets\Materials\Textures and Sprites\SF UI\Background\LICENSE.txt" />
     <None Include="Assets\Objects\Bulbasaur\Tag.txt" />
     <None Include="Assets\Objects\Charmander\Tag.txt" />
     <None Include="Assets\Objects\Squirtle\Tag.txt" />
-    <None Include="Assets\Textures and Sprites\SF UI\Background\LICENSE.txt" />
     <None Include="Assets\read me.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

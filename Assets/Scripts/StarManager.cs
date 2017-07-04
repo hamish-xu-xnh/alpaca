@@ -12,11 +12,14 @@ public class StarManager : MonoBehaviour {
     public Vector2 inventorySize;
     public float slotSize;
     public Vector2 windowSize;
+    private float trapTimer;
+    private bool trapFlag = false;
+    public Text Timertxt;
     //public Button bagButton;
     //public Button actButton;
 
     //before start
-    public void Awake()
+    private void Awake()
     {
         starPanel = this.gameObject;
         //craftMode = false;
@@ -43,7 +46,25 @@ public class StarManager : MonoBehaviour {
         }
         //this.gameObject.SetActive(false);
     }
-    
+
+    private void FixedUpdate()
+    {
+        if (trapFlag)
+        {
+            trapTimer -= 1f;
+            if (trapTimer <= 0f)
+            {
+                trapTimeout();
+            }
+        }
+    }
+
+    private void trapTimeout()
+    {
+        trapFlag = false;
+        Timertxt.GetComponent<Text>().color = Color.white;
+    }
+
     //add a new item to the bag
     public void addStar(GameObject starPrefab,float hp)
     {
@@ -78,49 +99,60 @@ public class StarManager : MonoBehaviour {
 
     public void reduceStar()
     {
-        //check if player has any star
-        if (transform.GetChild(0).childCount != 0)
+        if (!trapFlag)
         {
-            transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP -= 25;
-            transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = "" + (int)transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP;
-            //remove 1st star when its hp less than 0
-            if (transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP <= 0)
+            trapTimer = 50f;
+            trapFlag = true;
+            //check if player has any star
+            if (transform.GetChild(0).childCount != 0)
             {
-                GameObject.Find("Worldspace").transform.Find(transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().intObjName).GetComponent<InteractableItem>().spawn();
-
-                if (transform.GetChild(0).GetChild(0).gameObject.name == "Star")
+                transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP -= 25;
+                transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = "" + (int)transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP;
+                //remove 1st star when its hp less than 0
+                if (transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().itemHP <= 0)
                 {
-                    GameManager.bv -= 0.2f;
-                }
-                else if (transform.GetChild(0).GetChild(0).gameObject.name == "Moon")
-                {
-                    GameManager.bs -= 0.5f;
-                }
-                else//itemIcon.name == "Snowflake"
-                {
-                    GameManager.bc -= 0.2f;
-                }
+                    GameObject.Find("Worldspace").transform.Find(transform.GetChild(0).GetChild(0).GetComponent<ItemManager>().intObjName).GetComponent<InteractableItem>().spawn();
 
-                Destroy(transform.GetChild(0).GetChild(0).gameObject);
-
-
-
-                //move the 2nd star (if exist) to the 1st slot
-                if (transform.GetChild(1).childCount != 0)
-                {
-                    transform.GetChild(1).GetChild(0).SetParent(transform.GetChild(0));
-                    //move the 3rd star (if exist) to the 2nd slot
-                    if (transform.GetChild(2).childCount != 0)
+                    if (transform.GetChild(0).GetChild(0).gameObject.name == "Star")
                     {
-                        transform.GetChild(2).GetChild(0).SetParent(transform.GetChild(1));
-                        transform.GetChild(1).GetChild(0).transform.localPosition = Vector3.zero;
+                        GameManager.bv -= 0.2f;
                     }
-                    transform.GetChild(0).GetChild(0).transform.localPosition = Vector3.zero;
-                    if (transform.GetChild(0).childCount > 1)
+                    else if (transform.GetChild(0).GetChild(0).gameObject.name == "Moon")
                     {
-                        transform.GetChild(0).GetChild(1).transform.localPosition = Vector3.zero;
+                        GameManager.bs -= 0.5f;
+                    }
+                    else//itemIcon.name == "Snowflake"
+                    {
+                        GameManager.bc -= 0.2f;
+                    }
+
+                    Destroy(transform.GetChild(0).GetChild(0).gameObject);
+
+
+
+                    //move the 2nd star (if exist) to the 1st slot
+                    if (transform.GetChild(1).childCount != 0)
+                    {
+                        transform.GetChild(1).GetChild(0).SetParent(transform.GetChild(0));
+                        //move the 3rd star (if exist) to the 2nd slot
+                        if (transform.GetChild(2).childCount != 0)
+                        {
+                            transform.GetChild(2).GetChild(0).SetParent(transform.GetChild(1));
+                            transform.GetChild(1).GetChild(0).transform.localPosition = Vector3.zero;
+                        }
+                        transform.GetChild(0).GetChild(0).transform.localPosition = Vector3.zero;
+                        if (transform.GetChild(0).childCount > 1)
+                        {
+                            transform.GetChild(0).GetChild(1).transform.localPosition = Vector3.zero;
+                        }
                     }
                 }
+            }
+            //player does not have any star
+            else
+            {
+                GameManager.time_limit -= 3;
+                Timertxt.GetComponent<Text>().color = Color.red;
             }
         }
     }
