@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+
+    public static GameObject gameManager;
     public static float temperature;
     public float startingTemperature;
     public Image tIndicator;
@@ -36,6 +38,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     private void Awake()
     {
+        gameManager = this.gameObject;
         temperature = startingTemperature;
     }
     void Start () {

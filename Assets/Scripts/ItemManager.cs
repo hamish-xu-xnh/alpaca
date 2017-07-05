@@ -93,7 +93,7 @@ public class ItemManager : MonoBehaviour {
 	{
         if (this.name == "IceItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().IceItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().IceItemUsed();
             /*
             if (System.Int32.Parse (Text.GetComponent<Text> ().text) > 1) {
                 int tcount = System.Int32.Parse (Text.GetComponent<Text> ().text) - 1;
@@ -108,28 +108,28 @@ public class ItemManager : MonoBehaviour {
         }
         if (this.name == "FireItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().FireItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().FireItemUsed();
             Destroy(this.gameObject);
         }
         if (this.name == "SpeedItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().SpeedItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().SpeedItemUsed();
         }
         if (this.name == "VisionItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().VisionItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().VisionItemUsed();
         }
         if (this.name == "GhostItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().GhostItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().GhostItemUsed();
         }
         if (this.name == "AmplifyItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().AmplifyItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().AmplifyItemUsed();
         }
         if (this.name == "FreezeItem")
         {
-            GameObject.Find("Canvas").GetComponent<GameManager>().FreezeItemUsed();
+            GameManager.gameManager.GetComponent<GameManager>().FreezeItemUsed();
         }
         this.transform.GetChild(0).gameObject.SetActive(false);
         Unselect();
