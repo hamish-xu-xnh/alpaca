@@ -10,11 +10,11 @@ public class GameManager : MonoBehaviour {
     public static float temperature;
     public float startingTemperature;
     public Image tIndicator;
-    public Image hole;
 	public GameObject worldCamera;
 	public Image Portrait;
+    public Image hole;
 
-	private float SkillTimer;
+    private float SkillTimer;
     private bool SkillFlag = false;
     private float SpeedTimer;
     private bool SpeedFlag = false;
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour {
         time_limit = 100;
         time_slot = 0f;
         bv = 0f;
+        firstLook();
     }
     void Update()
     {
@@ -231,7 +232,13 @@ public class GameManager : MonoBehaviour {
         FreezeFlag = false;
     }
 
-
+    private void firstLook()
+    {
+        SkillFlag = true;
+        SkillTimer = 250f;//2 Seconds
+        worldCamera.SetActive(true);
+        gameManager.GetComponent<Canvas>().enabled = false;
+    }
     public void PortraitClicked()
     {
         SkillUsed();
@@ -243,17 +250,17 @@ public class GameManager : MonoBehaviour {
             SkillFlag = true;
             time_limit -= 20;
             SkillTimer = 100f;//2 Seconds
-            Portrait.fillAmount = 0f;
             worldCamera.SetActive(true);
-            hole.gameObject.SetActive(false);
+            gameManager.GetComponent<Canvas>().enabled = false;
+            //hole.gameObject.SetActive(false);
         }
     }
     public void SkillTimeout()
     {
         SkillFlag = false;
-        hole.gameObject.SetActive(true);
+        Portrait.fillAmount = 0f;
+        //hole.gameObject.SetActive(true);
+        gameManager.GetComponent<Canvas>().enabled = true;
         worldCamera.SetActive(false);
     }
-
-
 }
