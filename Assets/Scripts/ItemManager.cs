@@ -13,16 +13,20 @@ public class ItemManager : MonoBehaviour {
     public float itemHP;
     private float ItemTimer;
     private bool ItemFlag = false;
+    private float bgTimer;
+    private bool bgFlag = false;
 
     public void Start()
     {
         ItemTimer = 500f;
+        bgTimer=1000f;
         selected = false;
     }
 
     public void itemFixedUpdate()
     {
         this.GetComponent<Image>().fillAmount = ItemTimer / 500;
+        transform.GetChild(3).GetComponent<Image>().fillAmount = bgTimer / 1000;
         if (ItemFlag)
         {
             ItemTimer -= 1f;
@@ -35,6 +39,14 @@ public class ItemManager : MonoBehaviour {
         {
             itemHP -= 0.1f * (GameManager.temperature) * (1 - GameManager.bc);
             Text.GetComponent<Text>().text = "" + (int)itemHP;
+        }
+        if (bgFlag)
+        {
+            bgTimer -= 1f;
+            if (bgTimer <= 0f)
+            {
+                bgTimeout();
+            }
         }
 
         if (itemHP < 0)
@@ -53,13 +65,16 @@ public class ItemManager : MonoBehaviour {
 
     public void ClickMe()
     {
-        if (selected)
+        if (!ItemFlag)
         {
-            Unselect();
-        }
-        else
-        {
-            Select();
+            if (selected)
+            {
+                Unselect();
+            }
+            else
+            {
+                Select();
+            }
         }
     }
 
@@ -91,6 +106,7 @@ public class ItemManager : MonoBehaviour {
 
     public void Use()
 	{
+        ItemUsed();
         if (this.name == "IceItem")
         {
             GameManager.gameManager.GetComponent<GameManager>().IceItemUsed();
@@ -104,12 +120,16 @@ public class ItemManager : MonoBehaviour {
            
             }
             */
-            Destroy(this.gameObject);
+            ItemTimer = 0f;
+            this.GetComponent<Image>().fillAmount = 0f;
+            ItemTimeout();
         }
         if (this.name == "FireItem")
         {
             GameManager.gameManager.GetComponent<GameManager>().FireItemUsed();
-            Destroy(this.gameObject);
+            ItemTimer = 0f;
+            this.GetComponent<Image>().fillAmount = 0f;
+            ItemTimeout();
         }
         if (this.name == "SpeedItem")
         {
@@ -133,7 +153,6 @@ public class ItemManager : MonoBehaviour {
         }
         this.transform.GetChild(0).gameObject.SetActive(false);
         Unselect();
-        ItemUsed();
     }
 
     public void Drop()
@@ -165,7 +184,10 @@ public class ItemManager : MonoBehaviour {
     }
     public void ItemTimeout()
     {
-        ItemFlag = false;
+        bgFlag = true;
+    }
+    public void bgTimeout()
+    {
         Destroy(this.gameObject);
     }
 }
