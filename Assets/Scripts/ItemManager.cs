@@ -19,14 +19,14 @@ public class ItemManager : MonoBehaviour {
     public void Start()
     {
         ItemTimer = 500f;
-        bgTimer=1000f;
+        bgTimer=500f;
         selected = false;
     }
 
     public void itemFixedUpdate()
     {
         this.GetComponent<Image>().fillAmount = ItemTimer / 500;
-        transform.GetChild(3).GetComponent<Image>().fillAmount = bgTimer / 1000;
+        transform.GetChild(3).GetComponent<Image>().fillAmount = bgTimer / 500;
         if (ItemFlag)
         {
             ItemTimer -= 1f;

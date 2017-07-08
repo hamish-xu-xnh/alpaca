@@ -147,9 +147,12 @@ public class Interact : MonoBehaviour
                 if (item == null)
                 {
                 */
-                BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab, other.transform.GetComponent<Item_reference>().itemHP);
-                index_drop = true;
-                Destroy(other.gameObject); 
+                if (BagManager.bagPanel.GetComponent<BagManager>().checkSlot())
+                {
+                    BagManager.bagPanel.GetComponent<BagManager>().addItem(other.transform.GetComponent<Item_reference>().Item_UI_prefab, other.transform.GetComponent<Item_reference>().itemHP);
+                    index_drop = true;
+                    Destroy(other.gameObject);
+                }
                 /*
                 }
                 else

@@ -164,7 +164,17 @@ public class BagManager : MonoBehaviour {
         return null;
     }
     */
-
+    public bool checkSlot()
+    {
+        foreach (Transform slot in BagManager.bagPanel.transform)
+        {
+            if (slot.childCount == 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     //add a new item to the bag
     public void addItem(GameObject itemPrefab,float hp)
     {

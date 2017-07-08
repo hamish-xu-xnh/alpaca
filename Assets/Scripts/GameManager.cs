@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour {
         temperature = startingTemperature;
     }
     void Start () {
-        time_limit = 100;
+        time_limit = 360;
         time_slot = 0f;
         bv = 0f;
         firstLook();
